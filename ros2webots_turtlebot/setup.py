@@ -2,10 +2,9 @@
 import os
 from glob import glob
 
-
 from setuptools import find_packages, setup
 
-package_name = 'ROS2WebotsLauncher'
+package_name = 'ros2webots_turtlebot'
 
 setup(
     name=package_name,
