@@ -6,6 +6,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch.substitutions import LaunchConfiguration
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 import launch
+from webots_ros2_driver.webots_controller import WebotsController
 
 def generate_launch_description():
 
@@ -18,6 +19,15 @@ def generate_launch_description():
         ros2_supervisor=True
     )
 
+    # add robot <extern> controller
+    robot_description_path = PathJoinSubstitution([package_dir, 'resource', 'turtleBotComponent.urdf'])
+    turtleBot_driver = WebotsController(
+        robot_name='TurtleBot3Burger_robot',
+        parameters=[{'robot_description':robot_description_path}
+        ],
+        respawn=True
+    )
+
     return LaunchDescription([
         DeclareLaunchArgument(
             'world',
@@ -26,6 +36,7 @@ def generate_launch_description():
         ),
         webots,
         webots._supervisor,
+        turtleBot_driver,
 
 
         # This action will kill all nodes once the Webots simulation has exited
