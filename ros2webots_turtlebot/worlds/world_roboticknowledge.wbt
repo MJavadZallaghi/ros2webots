@@ -19,4 +19,8 @@ RectangleArena {
   floorSize 5 5
 }
 TurtleBot3Burger {
+  translation 4.5464847164833344e-10 -5.214934642157418e-10 -0.0002477013487637847
+  rotation -0.0021195456650272724 -0.9999977537491604 4.775707089984546e-06 0.004640846749703647
+  name "TurtleBot3Burger_robot"
+  controller "<extern>"
 }

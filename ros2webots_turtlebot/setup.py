@@ -19,9 +19,10 @@ data_files.append(('share/' + package_name + '/worlds', [
 # data_files.append(('share/' + package_name + '/protos', [
 #     'protos/LegoTallInterval.proto',
 # ]))
-# data_files.append(('share/' + package_name + '/resource', [
-#     'resource/all.rviz',
-# ]))
+data_files.append(('share/' + package_name + '/resource', [
+    'resource/TurtleBot3Burger.urdf',
+    'resource/turtleBotComponent.urdf',
+]))
 data_files.append(('share/' + package_name, [
     'package.xml'
 ]))

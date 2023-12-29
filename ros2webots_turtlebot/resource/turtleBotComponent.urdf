@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<robot name="TurtleBot3Burger_robot">
+    <webots>
+        <!-- Get sensor data from Webots in ROS -->
+
+        <!-- Lidar Device -->
+        <device reference="LDS-01" type="Lidar">
+            <ros>
+                <enabled>true</enabled>
+                <updateRate>5</updateRate>
+                <topicName>/webots/turtlebot/lidar</topicName>
+                <alwaysOn>true</alwaysOn>
+                <frameName>LDS-01</frameName>
+            </ros>
+        </device>
+
+        <!-- Compass Device -->
+        <device reference="compass" type="Compass">
+            <ros>
+                <enabled>true</enabled>
+                <updateRate>5</updateRate>
+                <topicName>/webots/turtlebot/compass</topicName>
+                <alwaysOn>true</alwaysOn>
+                <frameName>compass</frameName>
+            </ros>
+        </device>
+
+        <!-- Turtlebot does NOT have an IMU -->
+        <!-- <plugin type="webots_ros2_driver::Ros2IMU">
+            <enabled>true</enabled>
+            <updateRate>20</updateRate>
+            <topicName>/webots/turtlebot/imu</topicName>
+            <alwaysOn>true</alwaysOn>
+            <frameName>imu_link</frameName>
+            <inertialUnitName>inertial_unit</inertialUnitName>
+            <gyroName>gyro</gyroName>
+            <accelerometerName>accelerometer</accelerometerName>
+        </plugin> -->
+
+
+        <!-- Connect Robot Driver Node from ROS to Webots -->
+        <plugin type = "ros2webots_turtlebot.turtlebot_robot_driver.TurtleBotWebotsDriver" />
+    </webots>
+</robot>
