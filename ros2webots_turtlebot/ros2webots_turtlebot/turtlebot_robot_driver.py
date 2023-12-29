@@ -12,6 +12,9 @@ class TurtleBotWebotsDriver():
         self.__left_motor = self.__robot.getDevice('left wheel motor')
         self.__right_motor = self.__robot.getDevice('right wheel motor')
 
+        self.__left_motor.setPosition(float('inf'))
+        self.__left_motor.setVelocity(0)
+
         self.__right_motor.setPosition(float('inf'))
         self.__right_motor.setVelocity(0)
 
@@ -19,8 +22,8 @@ class TurtleBotWebotsDriver():
 
         rclpy.init(args=None)
 
-        self.__node = rclpy.create_node('turtle_bot_driver_node')
-        self.__node.create_subscription(Twist, 'cmd_vel', self.__cmd_vel_callback, 10)
+        self.__node = rclpy.create_node('webots_turtle_bot_driver_node')
+        self.__node.create_subscription(Twist, '/webots/turtlebot/command_vel', self.__cmd_vel_callback, 10)
 
     def __cmd_vel_callback(self, twist):
         self.__target_twist = twist
