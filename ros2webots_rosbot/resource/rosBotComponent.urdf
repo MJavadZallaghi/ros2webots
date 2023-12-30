@@ -1,35 +1,35 @@
 <?xml version="1.0" ?>
-<robot name="TurtleBot3Burger_robot">
+<robot name="rosbot_robot">
     <webots>
         <!-- Get sensor data from Webots in ROS -->
 
         <!-- Lidar Device -->
-        <device reference="LDS-01" type="Lidar">
+        <device reference="laser" type="Lidar">
             <ros>
                 <enabled>true</enabled>
                 <updateRate>5</updateRate>
-                <topicName>/webots/turtlebot/lidar</topicName>
+                <topicName>/webots/rosbot/laser</topicName>
                 <alwaysOn>true</alwaysOn>
                 <frameName>LDS-01</frameName>
             </ros>
         </device>
 
         <!-- Compass Device -->
-        <device reference="compass" type="Compass">
+        <device reference="imu compass" type="Compass">
             <ros>
                 <enabled>true</enabled>
                 <updateRate>5</updateRate>
-                <topicName>/webots/turtlebot/compass</topicName>
+                <topicName>/webots/rosbot/compass</topicName>
                 <alwaysOn>true</alwaysOn>
                 <frameName>compass</frameName>
             </ros>
         </device>
 
-        <!-- Turtlebot does NOT have an IMU -->
+        <!-- IMU device -->
         <!-- <plugin type="webots_ros2_driver::Ros2IMU">
             <enabled>true</enabled>
             <updateRate>20</updateRate>
-            <topicName>/webots/turtlebot/imu</topicName>
+            <topicName>/webots/rosbot/imu</topicName>
             <alwaysOn>true</alwaysOn>
             <frameName>imu_link</frameName>
             <inertialUnitName>inertial_unit</inertialUnitName>

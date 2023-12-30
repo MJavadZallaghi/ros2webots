@@ -20,9 +20,9 @@ def generate_launch_description():
     )
 
     # add robot <extern> controller
-    robot_description_path = PathJoinSubstitution([package_dir, 'resource', 'turtleBotComponent.urdf'])
+    robot_description_path = PathJoinSubstitution([package_dir, 'resource', 'rosBotComponent.urdf'])
     turtleBot_driver = WebotsController(
-        robot_name='TurtleBot3Burger_robot',
+        robot_name='rosbot_robot',
         parameters=[{'robot_description':robot_description_path}
         ],
         respawn=True
