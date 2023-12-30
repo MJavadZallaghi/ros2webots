@@ -11,14 +11,22 @@ class RosBotWebotsDriver():
     def init(self, webots_node, properties):
         self.__robot = webots_node.robot
 
-        self.__left_motor = self.__robot.getDevice('left wheel motor')
-        self.__right_motor = self.__robot.getDevice('right wheel motor')
+        self.__fl_motor = self.__robot.getDevice('fl_wheel_joint')
+        self.__fr_motor = self.__robot.getDevice('fr_wheel_joint')
+        self.__rl_motor = self.__robot.getDevice('rl_wheel_joint')
+        self.__rr_motor = self.__robot.getDevice('rr_wheel_joint')
 
-        self.__left_motor.setPosition(float('inf'))
-        self.__left_motor.setVelocity(0)
+        self.__fl_motor.setPosition(float('inf'))
+        self.__fl_motor.setVelocity(0)
 
-        self.__right_motor.setPosition(float('inf'))
-        self.__right_motor.setVelocity(0)
+        self.__fr_motor.setPosition(float('inf'))
+        self.__fr_motor.setVelocity(0)
+
+        self.__rl_motor.setPosition(float('inf'))
+        self.__rl_motor.setVelocity(0)
+
+        self.__rr_motor.setPosition(float('inf'))
+        self.__rr_motor.setVelocity(0)
 
         self.__target_twist = Twist()
 
@@ -39,5 +47,7 @@ class RosBotWebotsDriver():
         command_motor_left = (forward_speed - angular_speed * HALF_DISTANCE_BETWEEN_WHEELS) / WHEEL_RADIUS
         command_motor_right = (forward_speed + angular_speed * HALF_DISTANCE_BETWEEN_WHEELS) / WHEEL_RADIUS
 
-        self.__left_motor.setVelocity(command_motor_left)
-        self.__right_motor.setVelocity(command_motor_right)
+        self.__fl_motor.setVelocity(command_motor_left)
+        self.__rl_motor.setVelocity(command_motor_left)
+        self.__fr_motor.setVelocity(command_motor_right)
+        self.__rr_motor.setVelocity(command_motor_right)

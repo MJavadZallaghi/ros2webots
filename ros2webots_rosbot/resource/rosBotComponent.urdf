@@ -26,16 +26,27 @@
         </device>
 
         <!-- IMU device -->
-        <!-- <plugin type="webots_ros2_driver::Ros2IMU">
-            <enabled>true</enabled>
-            <updateRate>20</updateRate>
+        <plugin type="webots_ros2_driver::Ros2IMU">
+            <!-- If `False`, disable the device. By default the device will be enabled. -->
+            <enabled>True</enabled>
+
+            <!-- Set the topic name of the device. By default it will be `/robotName/referenceName`. -->
             <topicName>/webots/rosbot/imu</topicName>
-            <alwaysOn>true</alwaysOn>
-            <frameName>imu_link</frameName>
-            <inertialUnitName>inertial_unit</inertialUnitName>
-            <gyroName>gyro</gyroName>
-            <accelerometerName>accelerometer</accelerometerName>
-        </plugin> -->
+            <!-- Set the update rate in Hz of the topic. By default the topic will be published at each simulation step. -->
+            <updateRate>5</updateRate>
+            <!-- If `True`, the device topics will constantly publish, which can slow down the simulation. -->
+            <!-- By default the topics are publishing only if there is at least one subscriber for the corresponding topic. -->
+            <alwaysOn>True</alwaysOn>
+            <!-- Set the frame ID for message headers. By default the frame ID is `referenceName`. -->
+            <!-- <frameName>new_frame_name</frameName> -->
+
+            <!-- Indicates the name of the inertial unit device. -->
+            <inertialUnitName>imu inertial_unit</inertialUnitName>
+            <!-- Indicates the name of the gyro device. -->
+            <gyroName>imu gyro</gyroName>
+            <!-- Indicates the name of the accelerometer device. -->
+            <accelerometerName>imu accelerometer</accelerometerName>
+        </plugin>
 
 
         <!-- Connect Robot Driver Node from ROS to Webots -->
