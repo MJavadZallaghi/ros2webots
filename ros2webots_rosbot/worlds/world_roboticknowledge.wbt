@@ -1,0 +1,46 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/plants/protos/PottedTree.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedAluminium.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.26112552194043803 -0.09466842178053833 0.9606515245961543 3.752417594678755
+  position 4.954843715464183 3.7908288287558847 3.477095723475976
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 5 5
+  floorAppearance Parquetry {
+    type "light strip"
+    colorOverride 1 1 0.498039
+    IBLStrength 10
+  }
+  wallHeight 0.3
+  wallAppearance BrushedAluminium {
+    colorOverride 0.666667 0.333333 0
+    IBLStrength 22
+  }
+}
+Table {
+  translation -1.6 1.5 0
+}
+PottedTree {
+  translation 1.86 -1.12 0
+}
+TurtleBot3Burger {
+  translation 4.5464847164833344e-10 -5.214934642157418e-10 -0.0002477013487637847
+  rotation -0.0021195456650272724 -0.9999977537491604 4.775707089984546e-06 0.004640846749703647
+  name "TurtleBot3Burger_robot"
+  controller "<extern>"
+}
