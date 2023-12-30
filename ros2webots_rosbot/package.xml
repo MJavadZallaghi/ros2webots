@@ -2,9 +2,9 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>ros2webots_rosbot</name>
-  <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="mohammadjavadzallaghi@gmail.com">mjavadzallaghi</maintainer>
+  <version>0.0.1</version>
+  <description>ros2webots_rosbot is a ros2 package that runs simulation of a Rosbot in Webots.</description>
+  <maintainer email="mohammadjavadzallaghi@gmail.com">Mohammad Javad Zallaghi</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
