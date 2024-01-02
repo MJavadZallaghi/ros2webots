@@ -17,8 +17,12 @@ Currently the repo hosts two ROS2 packages:
 
 Insert gif or link to demo
 
+TO DO
+
 
 ## Installation
+
+TO DO
 
 Install my-project with npm
 
@@ -28,6 +32,8 @@ Install my-project with npm
 ```
     
 ## Usage/Examples
+
+TO DO
 
 ```javascript
 import Component from 'my-project'
@@ -42,7 +48,7 @@ function App() {
 
 - Add arrow-based control for rosbot of ```ros2webots_rosbot``` package.
 
-- Add arrow-based control for rosbot of ```ros2webots_rosbot``` package.
+- Update and Complete file of readme ASAP.
 
 
 ## Support and Feedback
