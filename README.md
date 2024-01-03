@@ -24,22 +24,36 @@ TO DO
 
 ## Installation
 ### Install directly
-I assume you have Ubuntu 22.04 installed as OS or installed on WSL2.
+I assume you have installed Ubuntu 22.04 as OS or installed on Windows WSL2.
 
 1. Install [ROS2 iron](https://docs.ros.org/en/iron/Installation.html)
-
 2. Install [Webots](https://cyberbotics.com/doc/guide/installing-webots)
-
 3. Install [```webots_ros2``` package](https://docs.ros.org/en/iron/Tutorials/Advanced/Simulators/Webots/Simulation-Webots.html)
-
-4. 
-
-Install my-project with npm
-
-```bash
-  npm install my-project
-  cd my-project
+4. Clone the repo in your desiered work space:
+   ```
+   git clone https://github.com/MJavadZallaghi/ros2webots.git
+   ```
+5. change directory to the cloned package:
+   ```
+   cd ros2webots
+   ```
+6. Source your ros2 installation:
+   ```
+    source /opt/ros/iron/setup.bash
+   ```
+7. Build the package.
+   ```
+   colcon build
+   ```
+8. Source ```ros2webots``` installed packages:
+   ```
+   source install/setup.bash
+   ```
+8. Check the installation:
 ```
+ros2 pkg list |grep ros2webots
+```
+You must see this package: ```ros2webots_rosbot```
 ### Install using Docker
 Docker image of the ros2webots package is under construction!
     
