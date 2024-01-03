@@ -8,7 +8,7 @@ In ```ros2webots``` repo, we are creating simulated robots and environments in W
 Currently the repo hosts two ROS2 packages:
 
 - ```ros2webots_rosbot```: A rosbot is used in this world. The future development and simulation feature improvement will be mainly done in this package, as rosbot has many sensors like Camera, Lidar, and IMU; Also, the ```ros2webots_rosbot``` package building is done by ```ament_cmake```, that makes it easier for C++ based development.
-![alt world of rosbot](https://github.com/MJavadZallaghi/ros2webots/blob/main/ros2webots_rosbot/worlds/.world_roboticknowledge.jpg)
+![alt world of rosbot](https://github.com/MJavadZallaghi/ros2webots/blob/development/ros2webots_rosbot/worlds/.world_roboticknowledge.jpg)
 - ```ros2webots_turtlebot```: The world has a turtlebot, and package has been build using ```ament_python``` for initial ROS2+Webots interface setup tests.
 
 
