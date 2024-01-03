@@ -17,12 +17,22 @@ Currently the repo hosts two ROS2 packages:
 
 Insert gif or link to demo
 
+- Controlling the rosbot by keyboard
+
 TO DO
 
 
 ## Installation
+### Install directly
+I assume you have Ubuntu 22.04 installed as OS or installed on WSL2.
 
-TO DO
+1. Install [ROS2 iron] (https://docs.ros.org/en/iron/Installation.html)
+
+2. Install [Webots] (https://cyberbotics.com/doc/guide/installing-webots)
+
+3. Install [```webots_ros2``` package] (https://docs.ros.org/en/iron/Tutorials/Advanced/Simulators/Webots/Simulation-Webots.html)
+
+4. 
 
 Install my-project with npm
 
@@ -30,6 +40,8 @@ Install my-project with npm
   npm install my-project
   cd my-project
 ```
+### Install using Docker
+Docker image of the ros2webots package is under construction!
     
 ## Usage/Examples
 
@@ -49,6 +61,8 @@ function App() {
 - Add arrow-based control for rosbot of ```ros2webots_rosbot``` package.
 
 - Update and Complete file of readme ASAP.
+
+- Determine change in position of the rosbot and visualize its path using rviz.
 
 
 ## Support and Feedback
