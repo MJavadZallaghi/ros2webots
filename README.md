@@ -29,11 +29,11 @@ I assume you have installed Ubuntu 22.04 as OS or installed on Windows WSL2.
 1. Install [ROS2 iron](https://docs.ros.org/en/iron/Installation.html)
 2. Install [Webots](https://cyberbotics.com/doc/guide/installing-webots)
 3. Install [```webots_ros2```](https://docs.ros.org/en/iron/Tutorials/Advanced/Simulators/Webots/Simulation-Webots.html) package
-4. Clone the repo in your desiered work space:
+4. Clone the repo whereever you want:
    ```
    git clone https://github.com/MJavadZallaghi/ros2webots.git
    ```
-5. change directory to the cloned package:
+5. change directory to the workspace of the cloned package:
    ```
    cd ros2webots
    ```
