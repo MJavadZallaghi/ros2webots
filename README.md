@@ -26,11 +26,11 @@ TO DO
 ### Install directly
 I assume you have Ubuntu 22.04 installed as OS or installed on WSL2.
 
-1. Install [ROS2 iron] (https://docs.ros.org/en/iron/Installation.html)
+1. Install [ROS2 iron](https://docs.ros.org/en/iron/Installation.html)
 
-2. Install [Webots] (https://cyberbotics.com/doc/guide/installing-webots)
+2. Install [Webots](https://cyberbotics.com/doc/guide/installing-webots)
 
-3. Install [```webots_ros2``` package] (https://docs.ros.org/en/iron/Tutorials/Advanced/Simulators/Webots/Simulation-Webots.html)
+3. Install [```webots_ros2``` package](https://docs.ros.org/en/iron/Tutorials/Advanced/Simulators/Webots/Simulation-Webots.html)
 
 4. 
 
