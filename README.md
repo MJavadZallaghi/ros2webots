@@ -27,8 +27,8 @@ TO DO
 I assume you have installed Ubuntu 22.04 as OS or installed on Windows WSL2.
 
 1. Install [ROS2 iron](https://docs.ros.org/en/iron/Installation.html)
-2. Install [Webots](https://cyberbotics.com/doc/guide/installing-webots) If you are working on WSL2, then you can install Webots on windows as ```webots_ros2``` package can find your installation by a ```WEBOTS_HOME``` variable. Don't worry, eveything is explain the the reference of step 3.
-3. Install [```webots_ros2```](https://docs.ros.org/en/iron/Tutorials/Advanced/Simulators/Webots/Simulation-Webots.html) package
+2. Install [Webots](https://cyberbotics.com/doc/guide/installing-webots). If you are working on WSL2, then you can install Webots on windows as ```webots_ros2``` package can find your installation by a ```WEBOTS_HOME``` variable. Don't worry, eveything is explain the the reference of step 3.
+3. Install [```webots_ros2```](https://docs.ros.org/en/iron/Tutorials/Advanced/Simulators/Webots/Simulation-Webots.html) package.
 4. Clone the repo whereever you want:
    ```
    git clone https://github.com/MJavadZallaghi/ros2webots.git
