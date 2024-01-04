@@ -53,17 +53,17 @@ You must see this package: ```ros2webots_rosbot```
 ### Install using Docker
 Docker image of the ros2webots package is under construction!
     
-## Usage/Examples
-
-TO DO
-
-```javascript
-import Component from 'my-project'
-
-function App() {
-  return <Component />
-}
-```
+## Run the simulations
+- sim 1: rosbot controlled by the keyboard arrows
+1. Run the rosbot wprld in terminal 1:
+   ```
+   ros2 launch ros2webots_rosbot rosbot_world_launch.py
+   ```
+2. Run the keboard commanding node in terminal 2:
+   ```
+   ros2 run ros2webots_rosbot rosbot_get_keyboard_command
+   ```
+3. Command the rosbot by your arrows from second terminal.
 
 
 ## Roadmap
