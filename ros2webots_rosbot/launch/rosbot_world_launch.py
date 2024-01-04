@@ -19,7 +19,7 @@ def generate_launch_description():
         ros2_supervisor=True
     )
 
-    # add robot <extern> controller
+    # start robot <extern> controller
     robot_description_path = PathJoinSubstitution([package_dir, 'resource', 'rosBotComponent.urdf'])
     turtleBot_driver = WebotsController(
         robot_name='rosbot_robot',

@@ -36,9 +36,14 @@ install(DIRECTORY
 add_executable(rosbot_cpp_node_test src/rosbot_cpp_node_test.cpp)
 ament_target_dependencies(rosbot_cpp_node_test rclcpp std_msgs)
 
+add_executable(rosbot_get_keyboard_command src/rosbot_get_keyboard_command.cpp)
+ament_target_dependencies(rosbot_get_keyboard_command rclcpp geometry_msgs)
+
+
 # Install Cpp executables
 install(TARGETS
   rosbot_cpp_node_test
+  rosbot_get_keyboard_command
   DESTINATION lib/${PROJECT_NAME}
 )
 
