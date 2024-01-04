@@ -67,30 +67,23 @@ Docker image of the ros2webots package is under construction!
 
 
 ## Roadmap
-
-- Add arrow-based control for rosbot of ```ros2webots_rosbot``` package.
-
-- Update and Complete file of readme ASAP.
-
-- Determine change in position of the rosbot and visualize its path using rviz.
+- Implment IMU based locallization fir the rosbot and visualize its path using rviz.
+- Implement KF for the IMU data and increase the localization accuracy.
+- Add SLAM to the rosbot for environment mapping.
 
 
 ## Support and Feedback
-
 For any support and feedback, email MohammadJavadZallaghi@gmail.com or use [issues](https://github.com/MJavadZallaghi/ros2webots/issues) section of this repo.
 
 
 ## License
-
 [MIT](https://choosealicense.com/licenses/mit/)
 
 
 ## Authors
-
 - [@MJavadZallaghi](https://www.github.com/MJavadZallaghi)
 
 
 ## Acknowledgements
-
  - ```ros2webots``` is created based on the Webots and ROS2 interface, that is possible by using ```webots_ros2``` package.```webots_ros2``` is a package that provides the necessary interfaces to simulate a robot in the Webots open-source 3D robots simulator.  (https://github.com/cyberbotics/webots_ros2)
 
