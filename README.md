@@ -14,11 +14,7 @@ Currently the repo hosts two ROS2 packages:
 
 
 ## Demo
-
-Insert gif or link to demo
-
 - Controlling the rosbot by keyboard
-
 ![alt demo of robot controlled by keyboard](https://github.com/MJavadZallaghi/ros2webots/blob/development/media/ros2webots_rosbot_demo_keyboard_control.gif)
 
 
