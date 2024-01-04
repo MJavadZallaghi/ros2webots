@@ -19,7 +19,7 @@ Insert gif or link to demo
 
 - Controlling the rosbot by keyboard
 
-TO DO
+![alt demo of robot controlled by keyboard](https://github.com/MJavadZallaghi/ros2webots/blob/development/media/ros2webots_rosbot_demo_keyboard_control.gif)
 
 
 ## Installation
