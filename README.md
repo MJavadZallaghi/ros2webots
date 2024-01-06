@@ -67,6 +67,7 @@ Docker image of the ros2webots package is under construction!
 
 
 ## Roadmap
+- Visualized the rosbot using rviz2 with it's frames, sensor data, etc.
 - Implment IMU based locallization fir the rosbot and visualize its path using rviz.
 - Implement KF for the IMU data and increase the localization accuracy.
 - Add SLAM to the rosbot for environment mapping.
