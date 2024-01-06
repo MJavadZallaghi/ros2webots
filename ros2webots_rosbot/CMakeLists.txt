@@ -12,6 +12,9 @@ find_package(rclcpp REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(std_msgs  REQUIRED)
+find_package(tf2_ros  REQUIRED)
+find_package(urdf  REQUIRED)
+find_package(ament_index_cpp  REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -39,11 +42,15 @@ ament_target_dependencies(rosbot_cpp_node_test rclcpp std_msgs)
 add_executable(rosbot_get_keyboard_command src/rosbot_get_keyboard_command.cpp)
 ament_target_dependencies(rosbot_get_keyboard_command rclcpp geometry_msgs)
 
+add_executable(rosbot_tf_publisher src/rosbot_tf_publisher.cpp)
+ament_target_dependencies(rosbot_tf_publisher rclcpp tf2_ros urdf std_msgs)
+
 
 # Install Cpp executables
 install(TARGETS
   rosbot_cpp_node_test
   rosbot_get_keyboard_command
+  rosbot_tf_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
 

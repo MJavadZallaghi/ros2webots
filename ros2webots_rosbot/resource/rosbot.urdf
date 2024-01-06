@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<robot name="rosbot" xmlns:xacro="http://ros.org/wiki/xacro">
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.0612" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.15 0.077"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.0612" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.2 0.15 0.077"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="-0.048 0.038 0.133" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.023 0.065"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.048 0.038 0.133" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.023 0.065"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="-0.048 -0.038 0.133" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.023 0.065"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.048 -0.038 0.133" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.023 0.065"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="-0.048 0 0.163" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.1 0.001"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.048 0 0.163" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.1 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="laser">
+    <visual>
+      <origin xyz="0 0 -0.011" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.038" length="0.04"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.011" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.038" length="0.04"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="base_link_laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser"/>
+    <origin xyz="0.02 0 0.131" rpy="0 0 0"/>
+  </joint>
+  <link name="solid">
+  </link>
+  <joint name="laser_solid_joint" type="fixed">
+    <parent link="laser"/>
+    <child link="solid"/>
+    <origin xyz="0 0 -0.0314" rpy="0 0 0"/>
+  </joint>
+  <link name="camera">
+    <visual>
+      <origin xyz="0.006 0 0.034" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.165 0.029"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.006 0 0.034" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.04 0.165 0.029"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="-0.009 0 0.007" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.061 0.06 0.014"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.009 0 0.007" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.061 0.06 0.014"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="base_link_camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera"/>
+    <origin xyz="-0.027 0 0.165" rpy="0 0 0"/>
+  </joint>
+  <link name="camera depth">
+  </link>
+  <joint name="camera_camera depth_joint" type="fixed">
+    <parent link="camera"/>
+    <child link="camera depth"/>
+    <origin xyz="0.027 0.037 0.034" rpy="0 0 0"/>
+  </joint>
+  <link name="camera rgb">
+  </link>
+  <joint name="camera_camera rgb_joint" type="fixed">
+    <parent link="camera"/>
+    <child link="camera rgb"/>
+    <origin xyz="0.027 0.011 0.034" rpy="-1.570796 0 -1.570796"/>
+  </joint>
+  <link name="rr_range">
+  </link>
+  <joint name="base_link_rr_range_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="rr_range"/>
+    <origin xyz="-0.1 -0.05 0.053" rpy="0 0 -3.013185"/>
+  </joint>
+  <link name="rl_range">
+  </link>
+  <joint name="base_link_rl_range_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="rl_range"/>
+    <origin xyz="-0.1 0.05 0.053" rpy="0 0 3.01"/>
+  </joint>
+  <link name="fr_range">
+  </link>
+  <joint name="base_link_fr_range_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="fr_range"/>
+    <origin xyz="0.1 -0.05 0.053" rpy="0 0 -0.13"/>
+  </joint>
+  <link name="fl_range">
+  </link>
+  <joint name="base_link_fl_range_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="fl_range"/>
+    <origin xyz="0.1 0.05 0.053" rpy="0 0 0.13"/>
+  </joint>
+  <link name="imu">
+  </link>
+  <joint name="base_link_imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu"/>
+    <origin xyz="0 0 0.043" rpy="0 0 0"/>
+  </joint>
+  <link name="imu inertial_unit">
+  </link>
+  <joint name="imu_imu inertial_unit_joint" type="fixed">
+    <parent link="imu"/>
+    <child link="imu inertial_unit"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="imu compass">
+  </link>
+  <joint name="imu_imu compass_joint" type="fixed">
+    <parent link="imu"/>
+    <child link="imu compass"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="imu gyro">
+  </link>
+  <joint name="imu_imu gyro_joint" type="fixed">
+    <parent link="imu"/>
+    <child link="imu gyro"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="imu accelerometer">
+  </link>
+  <joint name="imu_imu accelerometer_joint" type="fixed">
+    <parent link="imu"/>
+    <child link="imu accelerometer"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="rr_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear right wheel"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="26"/>
+    <origin xyz="-0.055 -0.11 0.043" rpy="0 0 0"/>
+  </joint>
+  <link name="rear right wheel">
+    <visual>
+      <origin xyz="0 0.0115 0" rpy="-1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.043" length="0.035"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.0115 0" rpy="-1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.043" length="0.035"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="rl_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear left wheel"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="26"/>
+    <origin xyz="-0.055 0.11 0.043" rpy="0 0 0"/>
+  </joint>
+  <link name="rear left wheel">
+    <visual>
+      <origin xyz="0 -0.0115 0" rpy="-1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.043" length="0.035"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.0115 0" rpy="-1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.043" length="0.035"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="fr_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front right wheel"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="26"/>
+    <origin xyz="0.05 -0.11 0.043" rpy="0 0 0"/>
+  </joint>
+  <link name="front right wheel">
+    <visual>
+      <origin xyz="0 0.0115 0" rpy="-1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.043" length="0.035"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0.0115 0" rpy="-1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.043" length="0.035"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="fl_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front left wheel"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="26"/>
+    <origin xyz="0.05 0.11 0.043" rpy="0 0 0"/>
+  </joint>
+  <link name="front left wheel">
+    <visual>
+      <origin xyz="0 -0.0115 0" rpy="-1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.043" length="0.035"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.0115 0" rpy="-1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="0.043" length="0.035"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="cover">
+  </link>
+  <joint name="base_link_cover_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="cover"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+</robot>
