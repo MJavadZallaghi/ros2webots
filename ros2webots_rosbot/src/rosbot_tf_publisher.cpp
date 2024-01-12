@@ -1,4 +1,4 @@
-// TO DO: Publish base_link as you need it in rviz2
+// TO DO: Why graphic of the robot won't load in rviz2?
 
 #include <urdf/model.h>
 #include <rclcpp/rclcpp.hpp>
@@ -76,6 +76,7 @@ private:
 
       // Broadcast the transform
       tf_broadcaster_->sendTransform(transform_stamped);
+      RCLCPP_INFO(this->get_logger(), "TF of parent link %s to child link %s has been published.", parent_link_name.c_str(), child_link_name.c_str());
     }
   }
 };
