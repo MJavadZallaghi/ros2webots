@@ -21,12 +21,19 @@ def generate_launch_description():
 
     # start robot <extern> controller
     robot_description_path = PathJoinSubstitution([package_dir, 'resource', 'rosBotComponent.urdf'])
-    turtleBot_driver = WebotsController(
+    rosBot_driver = WebotsController(
         robot_name='rosbot_robot',
         parameters=[{'robot_description':robot_description_path}
         ],
         respawn=True
     )
+    # RUN TF and URDF publisher node of the rosbot for robot visualization
+    ros_tf_urdf_pub_node = Node(
+        package='ros2webots_rosbot',
+        namespace='rosbot_tf_urdf_pub_node',
+        executable='rosbot_tf_publisher',
+        name='rosbot_tf_urdf_pub_node',
+        )
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -36,7 +43,8 @@ def generate_launch_description():
         ),
         webots,
         webots._supervisor,
-        turtleBot_driver,
+        rosBot_driver,
+        ros_tf_urdf_pub_node,
 
 
         # This action will kill all nodes once the Webots simulation has exited
