@@ -43,7 +43,7 @@ add_executable(rosbot_get_keyboard_command src/rosbot_get_keyboard_command.cpp)
 ament_target_dependencies(rosbot_get_keyboard_command rclcpp geometry_msgs)
 
 add_executable(rosbot_tf_publisher src/rosbot_tf_publisher.cpp)
-ament_target_dependencies(rosbot_tf_publisher rclcpp tf2_ros urdf std_msgs)
+ament_target_dependencies(rosbot_tf_publisher rclcpp tf2_ros urdf std_msgs geometry_msgs tf2_ros)
 
 
 # Install Cpp executables

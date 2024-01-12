@@ -5,6 +5,8 @@
 #include <rclcpp/parameter.hpp>
 #include <ament_index_cpp/get_package_share_directory.hpp>
 #include "std_msgs/msg/string.hpp"
+#include <geometry_msgs/msg/transform_stamped.hpp>
+#include <tf2_ros/transform_broadcaster.h>
 
 using namespace std::chrono_literals;
 
@@ -15,8 +17,11 @@ public:
     urdf_path_ = ament_index_cpp::get_package_share_directory("ros2webots_rosbot") + "/resource/rosbot.urdf";
     loadURDF();
     publisher_ = this->create_publisher<std_msgs::msg::String>("robot_description_rosbot", 10);
-    timer_ = this->create_wall_timer(
-        500ms, std::bind(&RosbotDescriptionPublisher::publishRosBotDescription, this));
+    // Create a transform broadcaster
+    tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
+    timer_ = this->create_wall_timer(500ms, std::bind(&RosbotDescriptionPublisher::publishRosBotDescription, this));
+    // Publish TFs periodically
+    timer2_ = this->create_wall_timer(500ms, std::bind(&RosbotDescriptionPublisher::publish_transforms, this));
   }
   std::string getURDF() {
     return urdf_path_;
@@ -34,11 +39,13 @@ private:
 
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
     rclcpp::TimerBase::SharedPtr timer_;
+    rclcpp::TimerBase::SharedPtr timer2_;
     std::string urdf_path_;
+    urdf::Model model;
+    std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 
     void loadURDF() {
     // Load the URDF file
-    urdf::Model model;
     if (!model.initFile(urdf_path_)) {
         RCLCPP_ERROR(this->get_logger(), "Failed to load URDF file");
         return;
@@ -48,6 +55,34 @@ private:
     RCLCPP_INFO(this->get_logger(), "Robot name: %s", model.getName().c_str());
     // ...
     }
+
+  void publish_transforms()
+  {
+    // Iterate through all joints in the URDF
+    for (const auto& joint : model.joints_) {
+      // Get joint properties
+      const std::string& parent_link_name = joint.second->parent_link_name;
+      const std::string& child_link_name = joint.second->child_link_name;
+      const urdf::Pose& pose = joint.second->parent_to_joint_origin_transform;
+
+      // Create a transform message
+      geometry_msgs::msg::TransformStamped transform_stamped;
+      transform_stamped.header.stamp = this->get_clock()->now();
+      transform_stamped.header.frame_id = parent_link_name;
+      transform_stamped.child_frame_id = child_link_name;
+      transform_stamped.transform.translation.x = pose.position.x;
+      transform_stamped.transform.translation.y = pose.position.y;
+      transform_stamped.transform.translation.z = pose.position.z;
+      transform_stamped.transform.rotation.x = pose.rotation.x;
+      transform_stamped.transform.rotation.y = pose.rotation.y;
+      transform_stamped.transform.rotation.z = pose.rotation.z;
+      transform_stamped.transform.rotation.w = pose.rotation.w;
+
+      // Broadcast the transform
+      tf_broadcaster_->sendTransform(transform_stamped);
+    }
+  }
+
 };
 
 int main(int argc, char **argv) {
