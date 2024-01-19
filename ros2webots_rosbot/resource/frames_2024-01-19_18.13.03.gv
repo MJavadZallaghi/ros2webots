@@ -1,0 +1,25 @@
+digraph G {
+"base_link" -> "camera"[label=" Broadcaster: default_authority\nAverage rate: 2.25\nBuffer length: 4.0\nMost recent transform: 1705675383.139087\nOldest transform: 1705675379.13907\n"];
+"base_link" -> "cover"[label=" Broadcaster: default_authority\nAverage rate: 2.25\nBuffer length: 4.0\nMost recent transform: 1705675383.139174\nOldest transform: 1705675379.139142\n"];
+"base_link" -> "fl_range"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639182\nOldest transform: 1705675379.139156\n"];
+"base_link" -> "fr_range"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639189\nOldest transform: 1705675379.139164\n"];
+"base_link" -> "imu"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639196\nOldest transform: 1705675379.139172\n"];
+"base_link" -> "laser"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639204\nOldest transform: 1705675379.139184\n"];
+"base_link" -> "rl_range"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639215\nOldest transform: 1705675379.139191\n"];
+"base_link" -> "rr_range"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639222\nOldest transform: 1705675379.139199\n"];
+"camera" -> "camera depth"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639229\nOldest transform: 1705675379.139211\n"];
+"camera" -> "camera rgb"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639239\nOldest transform: 1705675379.139222\n"];
+"base_link" -> "front left wheel"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639252\nOldest transform: 1705675379.139232\n"];
+"base_link" -> "front right wheel"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639265\nOldest transform: 1705675379.139297\n"];
+"imu" -> "imu accelerometer"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639278\nOldest transform: 1705675379.139313\n"];
+"imu" -> "imu compass"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639291\nOldest transform: 1705675379.139329\n"];
+"imu" -> "imu gyro"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639364\nOldest transform: 1705675379.139343\n"];
+"imu" -> "imu inertial_unit"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639378\nOldest transform: 1705675379.139354\n"];
+"laser" -> "solid"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639392\nOldest transform: 1705675379.139365\n"];
+"base_link" -> "rear left wheel"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639405\nOldest transform: 1705675379.139373\n"];
+"base_link" -> "rear right wheel"[label=" Broadcaster: default_authority\nAverage rate: 2.286\nBuffer length: 3.5\nMost recent transform: 1705675382.639418\nOldest transform: 1705675379.139382\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1705675383.4285111"[ shape=plaintext ] ;
+}->"base_link";
+}
