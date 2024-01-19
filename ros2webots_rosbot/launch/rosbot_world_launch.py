@@ -34,6 +34,15 @@ def generate_launch_description():
         executable='rosbot_tf_publisher',
         name='rosbot_tf_urdf_pub_node',
         )
+    # Run imu-based localization node for the rosbot
+    rosbot_localization_configue_file = PathJoinSubstitution([package_dir, 'resource', 'rosbot_robot_localization.yaml'])
+    rosbot_localization_node = Node(
+            package='robot_localization',
+            executable='ekf_node',
+            name='ekf_filter_node',
+            output='screen',
+            arguments=[rosbot_localization_configue_file],
+        )
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -45,6 +54,7 @@ def generate_launch_description():
         webots._supervisor,
         rosBot_driver,
         ros_tf_urdf_pub_node,
+        rosbot_localization_node,
 
 
         # This action will kill all nodes once the Webots simulation has exited
