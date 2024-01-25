@@ -7,6 +7,7 @@ from launch.substitutions import LaunchConfiguration
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 import launch
 from webots_ros2_driver.webots_controller import WebotsController
+import datetime
 
 def generate_launch_description():
 
@@ -35,13 +36,22 @@ def generate_launch_description():
         name='rosbot_tf_urdf_pub_node',
         )
     # Run imu-based localization node for the rosbot
-    rosbot_localization_configue_file = PathJoinSubstitution([package_dir, 'resource', 'rosbot_robot_localization.yaml'])
-    rosbot_localization_node = Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_filter_node',
+    # rosbot_localization_configue_file = PathJoinSubstitution([package_dir, 'resource', 'rosbot_robot_localization.yaml'])
+    # rosbot_localization_node = Node(
+    #         package='robot_localization',
+    #         executable='ekf_node',
+    #         name='ekf_filter_node',
+    #         output='screen',
+    #         arguments=[rosbot_localization_configue_file],
+    #     )
+
+    # rosbot data logging
+    # Construct the bag file name with the timestamp
+    current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    bag_file_name = '/home/mjavadzallaghi/ros2_ws/ros2webots/baglog/' + f'rosbot_data_{current_time}.bag'
+    rosbot_logger_node = launch.actions.ExecuteProcess(
+            cmd=['ros2', 'bag', 'record', '/webots/rosbot/imu', '/webots/rosbot/command_vel', '-o', bag_file_name],   
             output='screen',
-            arguments=[rosbot_localization_configue_file],
         )
 
     return LaunchDescription([
@@ -54,7 +64,8 @@ def generate_launch_description():
         webots._supervisor,
         rosBot_driver,
         ros_tf_urdf_pub_node,
-        rosbot_localization_node,
+        # rosbot_localization_node,
+        rosbot_logger_node,
 
 
         # This action will kill all nodes once the Webots simulation has exited
