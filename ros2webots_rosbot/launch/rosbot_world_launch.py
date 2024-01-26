@@ -48,7 +48,7 @@ def generate_launch_description():
     # rosbot data logging
     # Construct the bag file name with the timestamp
     current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    bag_file_name = '/home/mjavadzallaghi/ros2_ws/ros2webots/baglog/' + f'rosbot_data_{current_time}.bag'
+    bag_file_name = '/home/mjavadzallaghi/ros2_ws/ros2webots/baglog/' + f'rosbot_data_{current_time}'
     rosbot_logger_node = launch.actions.ExecuteProcess(
             cmd=['ros2', 'bag', 'record', '/webots/rosbot/imu', '/webots/rosbot/command_vel', '-o', bag_file_name],   
             output='screen',
