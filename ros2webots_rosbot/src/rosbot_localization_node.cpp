@@ -4,6 +4,7 @@
 #include <string>
 
 #include "ros2webots_rosbot/rosbot_localization_node.hpp"
+#include "ros2webots_localization_model_cg.h"
 
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
@@ -23,8 +24,10 @@ class MinimalPublisher : public rclcpp::Node
       timerOdomDataPub_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timerOdomDataPub_callback, this));
 
       // Adding the subscriber to the "topic_test"
-      subscriber_ = this->create_subscription<std_msgs::msg::String>(
-        "topic_test", 10, std::bind(&MinimalPublisher::subscriber_callback, this, std::placeholders::_1));
+      subscriber_ = this->create_subscription<std_msgs::msg::String>("topic_test", 10, std::bind(&MinimalPublisher::subscriber_callback, this, std::placeholders::_1));
+      
+      // Initialized Localozition SDK object
+      localization_sdk_obj_.initialize();
     }
 
   private:
@@ -57,6 +60,9 @@ class MinimalPublisher : public rclcpp::Node
     rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr publisherOdomData_;
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscriber_;
     size_t count_;
+
+    // Create Localozition SDK object
+    ros2webots_localization_model_cg localization_sdk_obj_;
 };
 
 int main(int argc, char * argv[])
