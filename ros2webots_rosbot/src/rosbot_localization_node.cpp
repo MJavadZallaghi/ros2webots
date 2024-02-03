@@ -1,3 +1,5 @@
+// TO DO: Updated SDK and return data one by one + heading
+
 #include <chrono>
 #include <functional>
 #include <memory>
@@ -41,16 +43,17 @@ class MinimalPublisher : public rclcpp::Node
       // if (areTimestampsSynced(Imu_data_received.header.stamp.sec, Imu_data_received.header.stamp.nanosec, Wheels_encoder_data_received.header.stamp.sec, Wheels_encoder_data_received.header.stamp.nanosec)) {
       //   RunLocalizationProcess();
       // } // What about else?
-      if (imu_data_activated && wheel_data_activated) {
+      bool imuANDwheelDATAareSYNC = areTimestampsSynced(Imu_data_received.header.stamp.sec, Imu_data_received.header.stamp.nanosec, Wheels_encoder_data_received.header.stamp.sec, Wheels_encoder_data_received.header.stamp.nanosec);
+      if (imu_data_activated && wheel_data_activated && imuANDwheelDATAareSYNC) {
         RunLocalizationProcess();
       }
-      nav_msgs::msg::Odometry message;
       auto current_time = std::chrono::system_clock::now();
       auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(current_time.time_since_epoch());
-      message.header.stamp.sec = static_cast<uint32_t>(timestamp.count());
-      message.header.stamp.nanosec = static_cast<uint32_t>((current_time.time_since_epoch() - timestamp).count());
-      message.pose.pose.position.x = 1.3;
-      publisherOdomData_->publish(message);
+      OdomMessage.header.stamp.sec = static_cast<uint32_t>(timestamp.count());
+      OdomMessage.header.stamp.nanosec = static_cast<uint32_t>((current_time.time_since_epoch() - timestamp).count());
+      OdomMessage.pose.pose.position.x = localization_output_data.odometry_vector[0];  // TO DO --> Got NAN in the output
+      OdomMessage.pose.pose.position.y = localization_output_data.odometry_vector[1];
+      publisherOdomData_->publish(OdomMessage);
     }
 
     void RunLocalizationProcess() {
@@ -133,6 +136,9 @@ class MinimalPublisher : public rclcpp::Node
 
     // Wheels encoder data struct (received)
     sensor_msgs::msg::JointState Wheels_encoder_data_received;
+
+    // Odom pub message
+    nav_msgs::msg::Odometry OdomMessage;
 
     size_t count_;
 
