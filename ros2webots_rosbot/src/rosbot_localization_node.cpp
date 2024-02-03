@@ -38,6 +38,10 @@ class MinimalPublisher : public rclcpp::Node
 
     void timerOdomDataPub_callback() {
       auto message = nav_msgs::msg::Odometry();
+      auto current_time = std::chrono::system_clock::now();
+      auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(current_time.time_since_epoch());
+      message.header.stamp.sec = static_cast<uint32_t>(timestamp.count());
+      message.header.stamp.nanosec = static_cast<uint32_t>((current_time.time_since_epoch() - timestamp).count());
       message.pose.pose.position.x = 1.3;
       publisherOdomData_->publish(message);
     }
