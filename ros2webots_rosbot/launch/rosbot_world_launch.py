@@ -45,12 +45,20 @@ def generate_launch_description():
     #         arguments=[rosbot_localization_configue_file],
     #     )
 
+    # Localization Node
+    rosbo_localization_model_node = Node(
+        package='ros2webots_rosbot',
+        namespace='rosbot_localization_node_1',
+        executable='rosbot_localization_node',
+        name='rosbot_localization_node_1',
+        )
+
     # rosbot data logging
     # Construct the bag file name with the timestamp
     current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     bag_file_name = '/home/mjavadzallaghi/ros2_ws/ros2webots/baglog/' + f'rosbot_data_{current_time}'
     rosbot_logger_node = launch.actions.ExecuteProcess(
-            cmd=['ros2', 'bag', 'record', '/webots/rosbot/imu', '/webots/rosbot/command_vel', '-o', bag_file_name],   
+            cmd=['ros2', 'bag', 'record', '/webots/rosbot/imu', 'ros2/rosbot/odometry', '/webots/rosbot/odom/wheels_encoder_data', '/webots/rosbot/command_vel', '-o', bag_file_name],   
             output='screen',
         )
 
@@ -65,6 +73,7 @@ def generate_launch_description():
         rosBot_driver,
         ros_tf_urdf_pub_node,
         # rosbot_localization_node,
+        rosbo_localization_model_node,
         rosbot_logger_node,
 
 

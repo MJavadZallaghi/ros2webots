@@ -2,6 +2,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <cmath>
 
 #include "ros2webots_rosbot/rosbot_localization_node.hpp"
 
@@ -22,20 +23,28 @@ class MinimalPublisher : public rclcpp::Node
     MinimalPublisher()
     : Node("minimal_publisher"), count_(0)
     {
-      publisherOdomData_ = this->create_publisher<nav_msgs::msg::Odometry>("ros2/rosbot/odometry", 10);
-      timerOdomDataPub_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timerOdomDataPub_callback, this));
-
       subscriberIMU_ = this->create_subscription<sensor_msgs::msg::Imu>("/webots/rosbot/imu", 10, std::bind(&MinimalPublisher::subscriberIMU_callback, this, std::placeholders::_1));
       subscriberWheelsData_ = this->create_subscription<sensor_msgs::msg::JointState>("/webots/rosbot/odom/wheels_encoder_data", 10, std::bind(&MinimalPublisher::subscriberWheelsData_callback, this, std::placeholders::_1));
       // Initialized Localozition SDK object
       localization_sdk_obj_.initialize();
+
+      publisherOdomData_ = this->create_publisher<nav_msgs::msg::Odometry>("/webots/rosbot/odometry", 10);
+      timerOdomDataPub_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timerOdomDataPub_callback, this));
+
+      imu_data_activated = false;
+      wheel_data_activated = false;
     }
 
   private:
 
     void timerOdomDataPub_callback() {
-      RunLocalizationProcess();
-      auto message = nav_msgs::msg::Odometry();
+      // if (areTimestampsSynced(Imu_data_received.header.stamp.sec, Imu_data_received.header.stamp.nanosec, Wheels_encoder_data_received.header.stamp.sec, Wheels_encoder_data_received.header.stamp.nanosec)) {
+      //   RunLocalizationProcess();
+      // } // What about else?
+      if (imu_data_activated && wheel_data_activated) {
+        RunLocalizationProcess();
+      }
+      nav_msgs::msg::Odometry message;
       auto current_time = std::chrono::system_clock::now();
       auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(current_time.time_since_epoch());
       message.header.stamp.sec = static_cast<uint32_t>(timestamp.count());
@@ -60,6 +69,10 @@ class MinimalPublisher : public rclcpp::Node
       localization_input_data.fr_wheel_pose = Wheels_encoder_data_received.position[1];
       localization_input_data.rl_wheel_pose = Wheels_encoder_data_received.position[2];
       localization_input_data.rr_wheel_pose = Wheels_encoder_data_received.position[3];
+      localization_input_data.fl_wheel_pose_update_dt = 0.1; // Implement dt calc later
+      localization_input_data.fr_wheel_pose_update_dt = 0.1;
+      localization_input_data.rl_wheel_pose_update_dt = 0.1;
+      localization_input_data.rr_wheel_pose_update_dt = 0.1;
       localization_sdk_obj_.setExternalInputs(&localization_input_data);
       // Do localization
       localization_sdk_obj_.step();
@@ -70,11 +83,31 @@ class MinimalPublisher : public rclcpp::Node
     void subscriberIMU_callback(const sensor_msgs::msg::Imu::SharedPtr msg) {
       // RCLCPP_INFO(this->get_logger(), "Received IMU data");
       Imu_data_received = *msg;
+      imu_data_activated = true;
       // RCLCPP_INFO(this->get_logger(), "IMU orientation w:%f", Imu_data_received.orientation.w);
     }
 
     void subscriberWheelsData_callback(const sensor_msgs::msg::JointState::SharedPtr msg) {
       Wheels_encoder_data_received = *msg;
+      wheel_data_activated = true;
+    }
+
+    bool areTimestampsSynced(uint32_t imuSec, uint32_t imuNsec, uint32_t jointStateSec, uint32_t jointStateNsec, double threshold = 0.2) {
+      // Convert seconds and nanoseconds to a single double value for easier comparison
+      double imuTimestamp = imuSec + imuNsec * 1e-9;
+      double jointStateTimestamp = jointStateSec + jointStateNsec * 1e-9;
+
+      // Calculate the time difference between IMU and joint state timestamps
+      double timeDifference = std::fabs(imuTimestamp - jointStateTimestamp);
+
+      // RCLCPP_INFO(this->get_logger(), "Timestamp differene: %f", timeDifference);
+
+      // Check if the time difference is within the specified threshold
+      if (timeDifference <= threshold) {
+          return true;  // Timestamps are considered synced
+      } else {
+          return false;  // Timestamps are not synced
+      }
     }
 
     // Odom pablisher timer
@@ -85,8 +118,6 @@ class MinimalPublisher : public rclcpp::Node
     rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr subscriberIMU_;
     // Wheel encoders data subcriber
     rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr subscriberWheelsData_;
-
-    size_t count_;
 
     // Create Localizition SDK object
     ros2webots_localization_model_cg localization_sdk_obj_;
@@ -102,6 +133,11 @@ class MinimalPublisher : public rclcpp::Node
 
     // Wheels encoder data struct (received)
     sensor_msgs::msg::JointState Wheels_encoder_data_received;
+
+    size_t count_;
+
+    bool imu_data_activated;
+    bool wheel_data_activated;
 };
 
 int main(int argc, char * argv[])
