@@ -4,6 +4,8 @@
 #include <string>
 
 #include "ros2webots_rosbot/rosbot_localization_node.hpp"
+
+// Localization SDK main header
 #include "ros2webots_localization_model_cg.h"
 
 #include "rclcpp/rclcpp.hpp"
@@ -40,6 +42,7 @@ class MinimalPublisher : public rclcpp::Node
     }
 
     void timerOdomDataPub_callback() {
+      RunLocalizationProcess();
       auto message = nav_msgs::msg::Odometry();
       auto current_time = std::chrono::system_clock::now();
       auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(current_time.time_since_epoch());
@@ -47,6 +50,16 @@ class MinimalPublisher : public rclcpp::Node
       message.header.stamp.nanosec = static_cast<uint32_t>((current_time.time_since_epoch() - timestamp).count());
       message.pose.pose.position.x = 1.3;
       publisherOdomData_->publish(message);
+    }
+
+    void RunLocalizationProcess() {
+      // Set inputs
+      localization_input_data.imu_orientation_vector[10] = 0.5;
+      localization_sdk_obj_.setExternalInputs(&localization_input_data);
+      // Do localization
+
+      // Get outputs
+
     }
 
     void subscriber_callback(const std_msgs::msg::String::SharedPtr msg)
@@ -61,8 +74,14 @@ class MinimalPublisher : public rclcpp::Node
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscriber_;
     size_t count_;
 
-    // Create Localozition SDK object
+    // Create Localizition SDK object
     ros2webots_localization_model_cg localization_sdk_obj_;
+
+    // Localization input data struct
+    ros2webots_localization_model_cg::ExtU_ros2webots_localization__T localization_input_data;
+
+    // Localization output data struct
+    ros2webots_localization_model_cg::ExtY_ros2webots_localization__T localization_output_data;
 };
 
 int main(int argc, char * argv[])
