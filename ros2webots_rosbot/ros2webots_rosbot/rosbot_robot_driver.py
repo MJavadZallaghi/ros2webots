@@ -5,6 +5,8 @@ from rclpy.qos import QoSProfile
 import time
 
 from geometry_msgs.msg import Twist
+from sensor_msgs.msg import JointState
+
 
 HALF_DISTANCE_BETWEEN_WHEELS = 0.045
 WHEEL_RADIUS = 0.025
@@ -42,41 +44,29 @@ class RosBotWebotsDriver():
 
         self.__target_twist = Twist()
 
-        self.__fl_wheel_twist = Twist()
-        self.__fr_wheel_twist = Twist()
-        self.__rl_wheel_twist = Twist()
-        self.__rr_wheel_twist = Twist()
+        # self.__fl_wheel_twist = Twist()
+        # self.__fr_wheel_twist = Twist()
+        # self.__rl_wheel_twist = Twist()
+        # self.__rr_wheel_twist = Twist()
+
+        self.__wheels_encoder_data = JointState()
 
         rclpy.init(args=None)
 
         self.__node = rclpy.create_node('webots_rosbot_driver_node')
         self.__node.create_subscription(Twist, '/webots/rosbot/command_vel', self.__cmd_vel_callback, 10)
 
-        self.__publisher_fl_wheel_data = self.__node.create_publisher(Twist, '/webots/rosbot/odom/fl_wheel_pose', QoSProfile(depth=10))
-        self.__timer_fl_wheel_pose = self.__node.create_timer(1.0 / 20, self.__publish_twist_fl_wheel_data)
-        self.__publisher_fr_wheel_data = self.__node.create_publisher(Twist, '/webots/rosbot/odom/fr_wheel_pose', QoSProfile(depth=10))
-        self.__timer_fr_wheel_pose = self.__node.create_timer(1.0 / 20, self.__publish_twist_fr_wheel_data)
-        self.__publisher_rl_wheel_data = self.__node.create_publisher(Twist, '/webots/rosbot/odom/rl_wheel_pose', QoSProfile(depth=10))
-        self.__timer_rl_wheel_pose = self.__node.create_timer(1.0 / 20, self.__publish_twist_rl_wheel_data)
-        self.__publisher_rr_wheel_data = self.__node.create_publisher(Twist, '/webots/rosbot/odom/rr_wheel_pose', QoSProfile(depth=10))
-        self.__timer_rr_wheel_pose = self.__node.create_timer(1.0 / 20, self.__publish_twist_rr_wheel_data)
+
+        self.__publisher_wheels_encoder_data = self.__node.create_publisher(JointState, '/webots/rosbot/odom/wheels_encoder_data', QoSProfile(depth=10))
+        self.__node.create_timer(0.05, self.__publish_wheels_encoder_data)
         
 
-    def __publish_twist_fl_wheel_data(self):
-        self.__fl_wheel_twist.angular.z = self.__fl_sensor.getValue()
-        self.__publisher_fl_wheel_data.publish(self.__fl_wheel_twist)
-    
-    def __publish_twist_fr_wheel_data(self):
-        self.__fr_wheel_twist.angular.z = self.__fr_sensor.getValue()
-        self.__publisher_fr_wheel_data.publish(self.__fr_wheel_twist)
-    
-    def __publish_twist_rl_wheel_data(self):
-        self.__rl_wheel_twist.angular.z = self.__rl_sensor.getValue()
-        self.__publisher_rl_wheel_data.publish(self.__rl_wheel_twist)
-    
-    def __publish_twist_rr_wheel_data(self):
-        self.__rr_wheel_twist.angular.z = self.__rr_sensor.getValue()
-        self.__publisher_rr_wheel_data.publish(self.__rr_wheel_twist)
+    def __publish_wheels_encoder_data(self):
+        current_time = time.time()
+        self.__wheels_encoder_data.header.stamp.sec = int(current_time)
+        self.__wheels_encoder_data.header.stamp.nanosec = int((current_time - int(current_time)) * 1e9)
+        self.__wheels_encoder_data.position = [self.__fl_sensor.getValue(), self.__fr_sensor.getValue(), self.__rl_sensor.getValue(), self.__rr_sensor.getValue()]
+        self.__publisher_wheels_encoder_data.publish(self.__wheels_encoder_data)
 
     
     def __cmd_vel_callback(self, twist):

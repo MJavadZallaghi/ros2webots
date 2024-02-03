@@ -11,6 +11,8 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "nav_msgs/msg/odometry.hpp"
+#include "sensor_msgs/msg/imu.hpp"
+#include "sensor_msgs/msg/joint_state.hpp"
 
 using namespace std::chrono_literals;
 
@@ -20,26 +22,16 @@ class MinimalPublisher : public rclcpp::Node
     MinimalPublisher()
     : Node("minimal_publisher"), count_(0)
     {
-      publisher_ = this->create_publisher<std_msgs::msg::String>("topic_test", 10);
       publisherOdomData_ = this->create_publisher<nav_msgs::msg::Odometry>("ros2/rosbot/odometry", 10);
-      timer_ = this->create_wall_timer(500ms, std::bind(&MinimalPublisher::timer_callback, this));
       timerOdomDataPub_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timerOdomDataPub_callback, this));
 
-      // Adding the subscriber to the "topic_test"
-      subscriber_ = this->create_subscription<std_msgs::msg::String>("topic_test", 10, std::bind(&MinimalPublisher::subscriber_callback, this, std::placeholders::_1));
-      
+      subscriberIMU_ = this->create_subscription<sensor_msgs::msg::Imu>("/webots/rosbot/imu", 10, std::bind(&MinimalPublisher::subscriberIMU_callback, this, std::placeholders::_1));
+      subscriberWheelsData_ = this->create_subscription<sensor_msgs::msg::JointState>("/webots/rosbot/odom/wheels_encoder_data", 10, std::bind(&MinimalPublisher::subscriberWheelsData_callback, this, std::placeholders::_1));
       // Initialized Localozition SDK object
       localization_sdk_obj_.initialize();
     }
 
   private:
-    void timer_callback()
-    {
-      auto message = std_msgs::msg::String();
-      message.data = "Hello, world! " + std::to_string(count_++);
-      RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
-      publisher_->publish(message);
-    }
 
     void timerOdomDataPub_callback() {
       RunLocalizationProcess();
@@ -54,24 +46,46 @@ class MinimalPublisher : public rclcpp::Node
 
     void RunLocalizationProcess() {
       // Set inputs
-      localization_input_data.imu_orientation_vector[10] = 0.5;
+      localization_input_data.imu_orientation_vector[0] = Imu_data_received.orientation.x;
+      localization_input_data.imu_orientation_vector[1] = Imu_data_received.orientation.y;
+      localization_input_data.imu_orientation_vector[2] = Imu_data_received.orientation.z;
+      localization_input_data.imu_orientation_vector[3] = Imu_data_received.orientation.w;
+      localization_input_data.imu_angular_velocity_vector[0] = Imu_data_received.angular_velocity.x;
+      localization_input_data.imu_angular_velocity_vector[1] = Imu_data_received.angular_velocity.y;
+      localization_input_data.imu_angular_velocity_vector[2] = Imu_data_received.angular_velocity.z;
+      localization_input_data.imu_linear_acceleration_vector[0] = Imu_data_received.linear_acceleration.x;
+      localization_input_data.imu_linear_acceleration_vector[1] = Imu_data_received.linear_acceleration.y;
+      localization_input_data.imu_linear_acceleration_vector[2] = Imu_data_received.linear_acceleration.z;
+      localization_input_data.fl_wheel_pose = Wheels_encoder_data_received.position[0];
+      localization_input_data.fr_wheel_pose = Wheels_encoder_data_received.position[1];
+      localization_input_data.rl_wheel_pose = Wheels_encoder_data_received.position[2];
+      localization_input_data.rr_wheel_pose = Wheels_encoder_data_received.position[3];
       localization_sdk_obj_.setExternalInputs(&localization_input_data);
       // Do localization
-
+      localization_sdk_obj_.step();
       // Get outputs
-
+      localization_output_data = localization_sdk_obj_.getExternalOutputs();
     }
 
-    void subscriber_callback(const std_msgs::msg::String::SharedPtr msg)
-    {
-      RCLCPP_INFO(this->get_logger(), "Received: '%s'", msg->data.c_str());
+    void subscriberIMU_callback(const sensor_msgs::msg::Imu::SharedPtr msg) {
+      // RCLCPP_INFO(this->get_logger(), "Received IMU data");
+      Imu_data_received = *msg;
+      // RCLCPP_INFO(this->get_logger(), "IMU orientation w:%f", Imu_data_received.orientation.w);
     }
 
-    rclcpp::TimerBase::SharedPtr timer_;
+    void subscriberWheelsData_callback(const sensor_msgs::msg::JointState::SharedPtr msg) {
+      Wheels_encoder_data_received = *msg;
+    }
+
+    // Odom pablisher timer
     rclcpp::TimerBase::SharedPtr timerOdomDataPub_;
-    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
+    // Odom publisher
     rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr publisherOdomData_;
-    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscriber_;
+    // IMU data subcriber
+    rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr subscriberIMU_;
+    // Wheel encoders data subcriber
+    rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr subscriberWheelsData_;
+
     size_t count_;
 
     // Create Localizition SDK object
@@ -82,6 +96,12 @@ class MinimalPublisher : public rclcpp::Node
 
     // Localization output data struct
     ros2webots_localization_model_cg::ExtY_ros2webots_localization__T localization_output_data;
+
+    // IMU data struct (received)
+    sensor_msgs::msg::Imu Imu_data_received;
+
+    // Wheels encoder data struct (received)
+    sensor_msgs::msg::JointState Wheels_encoder_data_received;
 };
 
 int main(int argc, char * argv[])
