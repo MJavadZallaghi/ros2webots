@@ -11,6 +11,7 @@ find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 find_package(std_msgs  REQUIRED)
 find_package(tf2_ros  REQUIRED)
 find_package(urdf  REQUIRED)
@@ -45,12 +46,15 @@ ament_target_dependencies(rosbot_get_keyboard_command rclcpp geometry_msgs)
 add_executable(rosbot_tf_publisher src/rosbot_tf_publisher.cpp)
 ament_target_dependencies(rosbot_tf_publisher rclcpp tf2_ros urdf std_msgs geometry_msgs tf2_ros)
 
+add_executable(rosbot_localization_node src/rosbot_localization_node.cpp)
+ament_target_dependencies(rosbot_localization_node rclcpp std_msgs geometry_msgs nav_msgs)
 
 # Install Cpp executables
 install(TARGETS
   rosbot_cpp_node_test
   rosbot_get_keyboard_command
   rosbot_tf_publisher
+  rosbot_localization_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
