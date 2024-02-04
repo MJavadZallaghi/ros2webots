@@ -29,7 +29,7 @@ class MinimalPublisher : public rclcpp::Node
       localization_sdk_obj_.initialize();
 
       publisherOdomData_ = this->create_publisher<nav_msgs::msg::Odometry>("/webots/rosbot/odometry", 10);
-      timerOdomDataPub_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::timerOdomDataPub_callback, this));
+      // timerOdomDataPub_ = this->create_wall_timer(50ms, std::bind(&MinimalPublisher::OdomDataPub_callback, this));
 
       imu_data_activated = false;
       wheel_data_activated = false;
@@ -37,7 +37,7 @@ class MinimalPublisher : public rclcpp::Node
 
   private:
 
-    void timerOdomDataPub_callback() {
+    void OdomDataPub_callback() {
       // if (areTimestampsSynced(Imu_data_received.header.stamp.sec, Imu_data_received.header.stamp.nanosec, Wheels_encoder_data_received.header.stamp.sec, Wheels_encoder_data_received.header.stamp.nanosec)) {
       //   RunLocalizationProcess();
       // } // What about else?
@@ -49,10 +49,6 @@ class MinimalPublisher : public rclcpp::Node
       auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(current_time.time_since_epoch());
       OdomMessage.header.stamp.sec = static_cast<uint32_t>(timestamp.count());
       OdomMessage.header.stamp.nanosec = static_cast<uint32_t>((current_time.time_since_epoch() - timestamp).count());
-      RCLCPP_INFO(this->get_logger(), "X localization: %f", localization_output_data.odometry_vector[0]);
-      RCLCPP_INFO(this->get_logger(), "Y localization: %f", localization_output_data.odometry_vector[1]);
-      RCLCPP_INFO(this->get_logger(), "yaw localization: %f", localization_output_data.odometry_vector[2]);
-
       OdomMessage.pose.pose.position.x = localization_output_data.odometry_vector[0];
       OdomMessage.pose.pose.position.y = localization_output_data.odometry_vector[1];
       OdomMessage.pose.pose.orientation.z = localization_output_data.odometry_vector[2];
@@ -61,7 +57,7 @@ class MinimalPublisher : public rclcpp::Node
 
     void RunLocalizationProcess() {
       // Set inputs
-      localization_input_data.imu_orientation_vector[0] = Imu_data_received.orientation.x;  // TO DO: Righi side double, left side real_T. Is data assignment right?
+      localization_input_data.imu_orientation_vector[0] = Imu_data_received.orientation.x;
       localization_input_data.imu_orientation_vector[1] = Imu_data_received.orientation.y;
       localization_input_data.imu_orientation_vector[2] = Imu_data_received.orientation.z;
       localization_input_data.imu_orientation_vector[3] = Imu_data_received.orientation.w;
@@ -96,6 +92,7 @@ class MinimalPublisher : public rclcpp::Node
     void subscriberWheelsData_callback(const sensor_msgs::msg::JointState::SharedPtr msg) {
       Wheels_encoder_data_received = *msg;
       wheel_data_activated = true;
+      OdomDataPub_callback();
     }
 
     bool areTimestampsSynced(uint32_t imuSec, uint32_t imuNsec, uint32_t jointStateSec, uint32_t jointStateNsec, double threshold = 0.2) {
