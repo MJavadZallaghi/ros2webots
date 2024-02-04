@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'ros2webots_localization_model_cg'.
 //
-// Model version                  : 1.236
+// Model version                  : 1.252
 // Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
-// C/C++ source code generated on : Fri Feb  2 16:44:59 2024
+// C/C++ source code generated on : Sun Feb  4 13:15:47 2024
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -46,6 +46,14 @@ extern "C"
 
 // Const memory section
 // Declaration for custom storage class: Const
+extern const real_T rosbot_wheel_radius;// Referenced by:
+                                           //  '<S12>/Multiply'
+                                           //  '<S16>/Multiply'
+                                           //  '<S20>/Multiply'
+                                           //  '<S24>/Multiply'
+
+
+// ROSBot wheel radius
 extern const real_T wheel_based_localization_x_initial_coord;// Referenced by: '<S9>/Delay' 
 
 // Initial x coordinate of localization using only wheel pose data
@@ -62,9 +70,9 @@ class ros2webots_localization_model_cg final
   struct DW_ros2webots_localization_mo_T {
     real_T Delay_DSTATE;               // '<S9>/Delay'
     real_T Delay_DSTATE_g;             // '<S11>/Delay'
-    real_T Delay_DSTATE_j;             // '<S17>/Delay'
-    real_T Delay_DSTATE_o;             // '<S14>/Delay'
-    real_T Delay_DSTATE_i;             // '<S20>/Delay'
+    real_T Delay_DSTATE_j;             // '<S19>/Delay'
+    real_T Delay_DSTATE_o;             // '<S15>/Delay'
+    real_T Delay_DSTATE_i;             // '<S23>/Delay'
     real_T Delay1_DSTATE;              // '<S9>/Delay1'
   };
 
@@ -86,7 +94,7 @@ class ros2webots_localization_model_cg final
 
   // External outputs (root outports fed by signals with default storage)
   struct ExtY_ros2webots_localization__T {
-    real_T odometry_vector[2];         // '<Root>/odometry_vector'
+    real_T odometry_vector[3];         // '<Root>/odometry_vector'
   };
 
   // Real-time Model Data Structure
@@ -195,26 +203,30 @@ class ros2webots_localization_model_cg final
 //  '<S9>'   : 'ros2webots_localization_model_cg/localization/Subsystem'
 //  '<S10>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator'
 //  '<S11>'  : 'ros2webots_localization_model_cg/localization/FL Wheel Velocity Estimator/fl_wheel_speed_calc'
-//  '<S12>'  : 'ros2webots_localization_model_cg/localization/FL Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem'
-//  '<S13>'  : 'ros2webots_localization_model_cg/localization/FL Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem1'
-//  '<S14>'  : 'ros2webots_localization_model_cg/localization/FR Wheel Velocity Estimator/fl_wheel_speed_calc'
-//  '<S15>'  : 'ros2webots_localization_model_cg/localization/FR Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem'
-//  '<S16>'  : 'ros2webots_localization_model_cg/localization/FR Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem1'
-//  '<S17>'  : 'ros2webots_localization_model_cg/localization/RL Wheel Velocity Estimator/fl_wheel_speed_calc'
-//  '<S18>'  : 'ros2webots_localization_model_cg/localization/RL Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem'
-//  '<S19>'  : 'ros2webots_localization_model_cg/localization/RL Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem1'
-//  '<S20>'  : 'ros2webots_localization_model_cg/localization/RR Wheel Velocity Estimator/fl_wheel_speed_calc'
-//  '<S21>'  : 'ros2webots_localization_model_cg/localization/RR Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem'
-//  '<S22>'  : 'ros2webots_localization_model_cg/localization/RR Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem1'
-//  '<S23>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles'
-//  '<S24>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Angle Calculation'
-//  '<S25>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Quaternion Normalize'
-//  '<S26>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input'
-//  '<S27>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem'
-//  '<S28>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem1'
-//  '<S29>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem2'
-//  '<S30>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus'
-//  '<S31>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
+//  '<S12>'  : 'ros2webots_localization_model_cg/localization/FL Wheel Velocity Estimator/wheel rps 2 wheel mps'
+//  '<S13>'  : 'ros2webots_localization_model_cg/localization/FL Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem'
+//  '<S14>'  : 'ros2webots_localization_model_cg/localization/FL Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem1'
+//  '<S15>'  : 'ros2webots_localization_model_cg/localization/FR Wheel Velocity Estimator/fl_wheel_speed_calc'
+//  '<S16>'  : 'ros2webots_localization_model_cg/localization/FR Wheel Velocity Estimator/wheel rps 2 wheel mps'
+//  '<S17>'  : 'ros2webots_localization_model_cg/localization/FR Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem'
+//  '<S18>'  : 'ros2webots_localization_model_cg/localization/FR Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem1'
+//  '<S19>'  : 'ros2webots_localization_model_cg/localization/RL Wheel Velocity Estimator/fl_wheel_speed_calc'
+//  '<S20>'  : 'ros2webots_localization_model_cg/localization/RL Wheel Velocity Estimator/wheel rps 2 wheel mps'
+//  '<S21>'  : 'ros2webots_localization_model_cg/localization/RL Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem'
+//  '<S22>'  : 'ros2webots_localization_model_cg/localization/RL Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem1'
+//  '<S23>'  : 'ros2webots_localization_model_cg/localization/RR Wheel Velocity Estimator/fl_wheel_speed_calc'
+//  '<S24>'  : 'ros2webots_localization_model_cg/localization/RR Wheel Velocity Estimator/wheel rps 2 wheel mps'
+//  '<S25>'  : 'ros2webots_localization_model_cg/localization/RR Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem'
+//  '<S26>'  : 'ros2webots_localization_model_cg/localization/RR Wheel Velocity Estimator/fl_wheel_speed_calc/If Action Subsystem1'
+//  '<S27>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles'
+//  '<S28>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Angle Calculation'
+//  '<S29>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Quaternion Normalize'
+//  '<S30>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input'
+//  '<S31>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem'
+//  '<S32>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem1'
+//  '<S33>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Angle Calculation/Protect asincos input/If Action Subsystem2'
+//  '<S34>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus'
+//  '<S35>'  : 'ros2webots_localization_model_cg/localization/yaw_estimator/Quaternions to Rotation Angles/Quaternion Normalize/Quaternion Modulus/Quaternion Norm'
 
 #endif                        // RTW_HEADER_ros2webots_localization_model_cg_h_
 

@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'ros2webots_localization_model_cg'.
 //
-// Model version                  : 1.236
+// Model version                  : 1.252
 // Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
-// C/C++ source code generated on : Fri Feb  2 16:44:59 2024
+// C/C++ source code generated on : Sun Feb  4 13:15:47 2024
 //
 // Target selection: ert.tlc
 // Embedded hardware selection: Intel->x86-64 (Windows64)
@@ -29,6 +29,14 @@ extern "C"
 
 // Const memory section
 // Definition for custom storage class: Const
+const real_T rosbot_wheel_radius{ 0.043 };// Referenced by:
+                                             //  '<S12>/Multiply'
+                                             //  '<S16>/Multiply'
+                                             //  '<S20>/Multiply'
+                                             //  '<S24>/Multiply'
+
+
+// ROSBot wheel radius
 const real_T wheel_based_localization_x_initial_coord{ 0.0 };// Referenced by: '<S9>/Delay' 
 
 // Initial x coordinate of localization using only wheel pose data
@@ -39,14 +47,14 @@ const real_T wheel_based_localization_y_initial_coord{ 0.0 };// Referenced by: '
 //
 // Output and update for action system:
 //    '<S11>/If Action Subsystem'
-//    '<S14>/If Action Subsystem'
-//    '<S17>/If Action Subsystem'
-//    '<S20>/If Action Subsystem'
+//    '<S15>/If Action Subsystem'
+//    '<S19>/If Action Subsystem'
+//    '<S23>/If Action Subsystem'
 //
 void ros2webots_localization_model_cg::ros2webots_lo_IfActionSubsystem(real_T
   rtu_In1, real_T rtu_dt_data_change, real_T *rty_Out1)
 {
-  // Product: '<S12>/Divide'
+  // Product: '<S13>/Divide'
   *rty_Out1 = rtu_In1 / rtu_dt_data_change;
 }
 
@@ -89,12 +97,12 @@ real_T rt_atan2d_snf(real_T u0, real_T u1)
 // Model step function
 void ros2webots_localization_model_cg::step()
 {
-  real_T rtb_Gain;
   real_T rtb_Gain_i;
   real_T rtb_Multiply;
+  real_T rtb_Multiply_g;
+  real_T rtb_Multiply_np;
   real_T rtb_Product1_a;
   real_T rtb_Product2;
-  real_T rtb_fcn5;
 
   // SignalConversion generated from: '<S1>/Vector Concatenate' incorporates:
   //   Delay: '<S9>/Delay'
@@ -111,24 +119,24 @@ void ros2webots_localization_model_cg::step()
 
   if (ros2webots_localization_model_U.fl_wheel_pose_update_dt >= 0.001) {
     // Outputs for IfAction SubSystem: '<S11>/If Action Subsystem' incorporates:
-    //   ActionPort: '<S12>/Action Port'
+    //   ActionPort: '<S13>/Action Port'
 
     ros2webots_lo_IfActionSubsystem
       (ros2webots_localization_model_U.fl_wheel_pose -
        ros2webots_localization_mode_DW.Delay_DSTATE_g,
-       ros2webots_localization_model_U.fl_wheel_pose_update_dt, &rtb_Multiply);
+       ros2webots_localization_model_U.fl_wheel_pose_update_dt, &rtb_Gain_i);
 
     // End of Outputs for SubSystem: '<S11>/If Action Subsystem'
   } else {
     // Outputs for IfAction SubSystem: '<S11>/If Action Subsystem1' incorporates:
-    //   ActionPort: '<S13>/Action Port'
+    //   ActionPort: '<S14>/Action Port'
 
-    // SignalConversion generated from: '<S13>/In1' incorporates:
+    // SignalConversion generated from: '<S14>/In1' incorporates:
     //   Delay: '<S11>/Delay'
     //   Inport: '<Root>/fl_wheel_pose'
     //   Sum: '<S11>/Sum'
 
-    rtb_Multiply = ros2webots_localization_model_U.fl_wheel_pose -
+    rtb_Gain_i = ros2webots_localization_model_U.fl_wheel_pose -
       ros2webots_localization_mode_DW.Delay_DSTATE_g;
 
     // End of Outputs for SubSystem: '<S11>/If Action Subsystem1'
@@ -136,116 +144,124 @@ void ros2webots_localization_model_cg::step()
 
   // End of If: '<S11>/If'
 
-  // If: '<S17>/If' incorporates:
-  //   Delay: '<S17>/Delay'
+  // Gain: '<S12>/Multiply'
+  rtb_Multiply = rosbot_wheel_radius * rtb_Gain_i;
+
+  // If: '<S19>/If' incorporates:
+  //   Delay: '<S19>/Delay'
   //   Inport: '<Root>/rl_wheel_pose'
   //   Inport: '<Root>/rl_wheel_pose_update_dt'
-  //   Sum: '<S17>/Sum'
+  //   Sum: '<S19>/Sum'
 
   if (ros2webots_localization_model_U.rl_wheel_pose_update_dt >= 0.001) {
-    // Outputs for IfAction SubSystem: '<S17>/If Action Subsystem' incorporates:
-    //   ActionPort: '<S18>/Action Port'
+    // Outputs for IfAction SubSystem: '<S19>/If Action Subsystem' incorporates:
+    //   ActionPort: '<S21>/Action Port'
 
     ros2webots_lo_IfActionSubsystem
       (ros2webots_localization_model_U.rl_wheel_pose -
        ros2webots_localization_mode_DW.Delay_DSTATE_j,
        ros2webots_localization_model_U.rl_wheel_pose_update_dt, &rtb_Gain_i);
 
-    // End of Outputs for SubSystem: '<S17>/If Action Subsystem'
+    // End of Outputs for SubSystem: '<S19>/If Action Subsystem'
   } else {
-    // Outputs for IfAction SubSystem: '<S17>/If Action Subsystem1' incorporates:
-    //   ActionPort: '<S19>/Action Port'
+    // Outputs for IfAction SubSystem: '<S19>/If Action Subsystem1' incorporates:
+    //   ActionPort: '<S22>/Action Port'
 
-    // SignalConversion generated from: '<S19>/In1' incorporates:
-    //   Delay: '<S17>/Delay'
+    // SignalConversion generated from: '<S22>/In1' incorporates:
+    //   Delay: '<S19>/Delay'
     //   Inport: '<Root>/rl_wheel_pose'
-    //   Sum: '<S17>/Sum'
+    //   Sum: '<S19>/Sum'
 
     rtb_Gain_i = ros2webots_localization_model_U.rl_wheel_pose -
       ros2webots_localization_mode_DW.Delay_DSTATE_j;
 
-    // End of Outputs for SubSystem: '<S17>/If Action Subsystem1'
+    // End of Outputs for SubSystem: '<S19>/If Action Subsystem1'
   }
 
-  // End of If: '<S17>/If'
+  // End of If: '<S19>/If'
 
-  // Gain: '<S4>/Gain' incorporates:
-  //   Sum: '<S4>/Sum'
+  // Gain: '<S20>/Multiply'
+  rtb_Multiply_np = rosbot_wheel_radius * rtb_Gain_i;
 
-  rtb_Gain = (rtb_Multiply + rtb_Gain_i) * 0.5;
-
-  // If: '<S14>/If' incorporates:
-  //   Delay: '<S14>/Delay'
+  // If: '<S15>/If' incorporates:
+  //   Delay: '<S15>/Delay'
   //   Inport: '<Root>/fr_wheel_pose'
   //   Inport: '<Root>/fr_wheel_pose_update_dt'
-  //   Sum: '<S14>/Sum'
+  //   Sum: '<S15>/Sum'
 
   if (ros2webots_localization_model_U.fr_wheel_pose_update_dt >= 0.001) {
-    // Outputs for IfAction SubSystem: '<S14>/If Action Subsystem' incorporates:
-    //   ActionPort: '<S15>/Action Port'
+    // Outputs for IfAction SubSystem: '<S15>/If Action Subsystem' incorporates:
+    //   ActionPort: '<S17>/Action Port'
 
     ros2webots_lo_IfActionSubsystem
       (ros2webots_localization_model_U.fr_wheel_pose -
        ros2webots_localization_mode_DW.Delay_DSTATE_o,
        ros2webots_localization_model_U.fr_wheel_pose_update_dt, &rtb_Gain_i);
 
-    // End of Outputs for SubSystem: '<S14>/If Action Subsystem'
+    // End of Outputs for SubSystem: '<S15>/If Action Subsystem'
   } else {
-    // Outputs for IfAction SubSystem: '<S14>/If Action Subsystem1' incorporates:
-    //   ActionPort: '<S16>/Action Port'
+    // Outputs for IfAction SubSystem: '<S15>/If Action Subsystem1' incorporates:
+    //   ActionPort: '<S18>/Action Port'
 
-    // SignalConversion generated from: '<S16>/In1' incorporates:
-    //   Delay: '<S14>/Delay'
+    // SignalConversion generated from: '<S18>/In1' incorporates:
+    //   Delay: '<S15>/Delay'
     //   Inport: '<Root>/fr_wheel_pose'
-    //   Sum: '<S14>/Sum'
+    //   Sum: '<S15>/Sum'
 
     rtb_Gain_i = ros2webots_localization_model_U.fr_wheel_pose -
       ros2webots_localization_mode_DW.Delay_DSTATE_o;
 
-    // End of Outputs for SubSystem: '<S14>/If Action Subsystem1'
+    // End of Outputs for SubSystem: '<S15>/If Action Subsystem1'
   }
 
-  // End of If: '<S14>/If'
+  // End of If: '<S15>/If'
 
-  // If: '<S20>/If' incorporates:
-  //   Delay: '<S20>/Delay'
+  // Gain: '<S16>/Multiply'
+  rtb_Multiply_g = rosbot_wheel_radius * rtb_Gain_i;
+
+  // If: '<S23>/If' incorporates:
+  //   Delay: '<S23>/Delay'
   //   Inport: '<Root>/rr_wheel_pose'
   //   Inport: '<Root>/rr_wheel_pose_update_dt'
-  //   Sum: '<S20>/Sum'
+  //   Sum: '<S23>/Sum'
 
   if (ros2webots_localization_model_U.rr_wheel_pose_update_dt >= 0.001) {
-    // Outputs for IfAction SubSystem: '<S20>/If Action Subsystem' incorporates:
-    //   ActionPort: '<S21>/Action Port'
+    // Outputs for IfAction SubSystem: '<S23>/If Action Subsystem' incorporates:
+    //   ActionPort: '<S25>/Action Port'
 
     ros2webots_lo_IfActionSubsystem
       (ros2webots_localization_model_U.rr_wheel_pose -
        ros2webots_localization_mode_DW.Delay_DSTATE_i,
-       ros2webots_localization_model_U.rr_wheel_pose_update_dt, &rtb_Multiply);
+       ros2webots_localization_model_U.rr_wheel_pose_update_dt, &rtb_Gain_i);
 
-    // End of Outputs for SubSystem: '<S20>/If Action Subsystem'
+    // End of Outputs for SubSystem: '<S23>/If Action Subsystem'
   } else {
-    // Outputs for IfAction SubSystem: '<S20>/If Action Subsystem1' incorporates:
-    //   ActionPort: '<S22>/Action Port'
+    // Outputs for IfAction SubSystem: '<S23>/If Action Subsystem1' incorporates:
+    //   ActionPort: '<S26>/Action Port'
 
-    // SignalConversion generated from: '<S22>/In1' incorporates:
-    //   Delay: '<S20>/Delay'
+    // SignalConversion generated from: '<S26>/In1' incorporates:
+    //   Delay: '<S23>/Delay'
     //   Inport: '<Root>/rr_wheel_pose'
-    //   Sum: '<S20>/Sum'
+    //   Sum: '<S23>/Sum'
 
-    rtb_Multiply = ros2webots_localization_model_U.rr_wheel_pose -
+    rtb_Gain_i = ros2webots_localization_model_U.rr_wheel_pose -
       ros2webots_localization_mode_DW.Delay_DSTATE_i;
 
-    // End of Outputs for SubSystem: '<S20>/If Action Subsystem1'
+    // End of Outputs for SubSystem: '<S23>/If Action Subsystem1'
   }
 
-  // End of If: '<S20>/If'
+  // End of If: '<S23>/If'
 
   // Gain: '<S5>/Gain' incorporates:
+  //   Gain: '<S24>/Multiply'
+  //   Gain: '<S4>/Gain'
   //   Gain: '<S8>/Gain'
+  //   Sum: '<S4>/Sum'
   //   Sum: '<S5>/Sum'
   //   Sum: '<S8>/Sum'
 
-  rtb_Gain_i = ((rtb_Gain_i + rtb_Multiply) * 0.5 + rtb_Gain) * 0.5;
+  rtb_Gain_i = ((rosbot_wheel_radius * rtb_Gain_i + rtb_Multiply_g) * 0.5 +
+                (rtb_Multiply + rtb_Multiply_np) * 0.5) * 0.5;
 
   // Gain: '<S1>/Multiply' incorporates:
   //   Inport: '<Root>/fl_wheel_pose_update_dt'
@@ -260,68 +276,68 @@ void ros2webots_localization_model_cg::step()
                   ros2webots_localization_model_U.rr_wheel_pose_update_dt) *
     0.25;
 
-  // Sqrt: '<S30>/sqrt' incorporates:
+  // Sqrt: '<S34>/sqrt' incorporates:
   //   Inport: '<Root>/imu_orientation_vector'
-  //   Product: '<S31>/Product'
-  //   Product: '<S31>/Product1'
-  //   Product: '<S31>/Product2'
-  //   Product: '<S31>/Product3'
+  //   Product: '<S35>/Product'
+  //   Product: '<S35>/Product1'
+  //   Product: '<S35>/Product2'
+  //   Product: '<S35>/Product3'
   //   SignalConversion generated from: '<S10>/Vector Concatenate'
-  //   Sum: '<S31>/Sum'
+  //   Sum: '<S35>/Sum'
   //
-  rtb_Gain = std::sqrt(((ros2webots_localization_model_U.imu_orientation_vector
-    [0] * ros2webots_localization_model_U.imu_orientation_vector[0] +
-    ros2webots_localization_model_U.imu_orientation_vector[1] *
-    ros2webots_localization_model_U.imu_orientation_vector[1]) +
-                        ros2webots_localization_model_U.imu_orientation_vector[2]
-                        * ros2webots_localization_model_U.imu_orientation_vector[
-                        2]) +
-                       ros2webots_localization_model_U.imu_orientation_vector[3]
-                       * ros2webots_localization_model_U.imu_orientation_vector
-                       [3]);
+  rtb_Multiply_np = std::sqrt
+    (((ros2webots_localization_model_U.imu_orientation_vector[0] *
+       ros2webots_localization_model_U.imu_orientation_vector[0] +
+       ros2webots_localization_model_U.imu_orientation_vector[1] *
+       ros2webots_localization_model_U.imu_orientation_vector[1]) +
+      ros2webots_localization_model_U.imu_orientation_vector[2] *
+      ros2webots_localization_model_U.imu_orientation_vector[2]) +
+     ros2webots_localization_model_U.imu_orientation_vector[3] *
+     ros2webots_localization_model_U.imu_orientation_vector[3]);
 
-  // Product: '<S25>/Product' incorporates:
+  // Product: '<S29>/Product' incorporates:
   //   Inport: '<Root>/imu_orientation_vector'
   //   SignalConversion generated from: '<S10>/Vector Concatenate'
 
-  rtb_fcn5 = ros2webots_localization_model_U.imu_orientation_vector[0] /
-    rtb_Gain;
+  rtb_Multiply_g = ros2webots_localization_model_U.imu_orientation_vector[0] /
+    rtb_Multiply_np;
 
-  // Product: '<S25>/Product1' incorporates:
+  // Product: '<S29>/Product1' incorporates:
   //   Inport: '<Root>/imu_orientation_vector'
   //   SignalConversion generated from: '<S10>/Vector Concatenate'
 
   rtb_Product1_a = ros2webots_localization_model_U.imu_orientation_vector[1] /
-    rtb_Gain;
+    rtb_Multiply_np;
 
-  // Product: '<S25>/Product2' incorporates:
+  // Product: '<S29>/Product2' incorporates:
   //   Inport: '<Root>/imu_orientation_vector'
   //   SignalConversion generated from: '<S10>/Vector Concatenate'
 
   rtb_Product2 = ros2webots_localization_model_U.imu_orientation_vector[2] /
-    rtb_Gain;
+    rtb_Multiply_np;
 
-  // Product: '<S25>/Product3' incorporates:
+  // Product: '<S29>/Product3' incorporates:
   //   Inport: '<Root>/imu_orientation_vector'
   //   SignalConversion generated from: '<S10>/Vector Concatenate'
 
-  rtb_Gain = ros2webots_localization_model_U.imu_orientation_vector[3] /
-    rtb_Gain;
+  rtb_Multiply_np = ros2webots_localization_model_U.imu_orientation_vector[3] /
+    rtb_Multiply_np;
 
-  // Trigonometry: '<S24>/Trigonometric Function3' incorporates:
-  //   Fcn: '<S23>/fcn4'
-  //   Fcn: '<S23>/fcn5'
+  // Trigonometry: '<S28>/Trigonometric Function3' incorporates:
+  //   Fcn: '<S27>/fcn4'
+  //   Fcn: '<S27>/fcn5'
 
-  rtb_Gain = rt_atan2d_snf((rtb_Product2 * rtb_Gain + rtb_fcn5 * rtb_Product1_a)
-    * 2.0, ((rtb_fcn5 * rtb_fcn5 - rtb_Product1_a * rtb_Product1_a) -
-            rtb_Product2 * rtb_Product2) + rtb_Gain * rtb_Gain);
+  rtb_Multiply_np = rt_atan2d_snf((rtb_Product2 * rtb_Multiply_np +
+    rtb_Multiply_g * rtb_Product1_a) * 2.0, ((rtb_Multiply_g * rtb_Multiply_g -
+    rtb_Product1_a * rtb_Product1_a) - rtb_Product2 * rtb_Product2) +
+    rtb_Multiply_np * rtb_Multiply_np);
 
   // Sum: '<S9>/Sum' incorporates:
   //   Delay: '<S9>/Delay'
   //   Product: '<S9>/Product'
   //   Trigonometry: '<S9>/Cos'
 
-  ros2webots_localization_mode_DW.Delay_DSTATE += std::cos(rtb_Gain) *
+  ros2webots_localization_mode_DW.Delay_DSTATE += std::cos(rtb_Multiply_np) *
     rtb_Gain_i * rtb_Multiply;
 
   // SignalConversion generated from: '<S1>/Vector Concatenate' incorporates:
@@ -337,7 +353,12 @@ void ros2webots_localization_model_cg::step()
   //   Trigonometry: '<S9>/Sin'
 
   ros2webots_localization_mode_DW.Delay1_DSTATE += rtb_Gain_i * rtb_Multiply *
-    std::sin(rtb_Gain);
+    std::sin(rtb_Multiply_np);
+
+  // SignalConversion generated from: '<S1>/Vector Concatenate' incorporates:
+  //   Outport: '<Root>/odometry_vector'
+
+  ros2webots_localization_model_Y.odometry_vector[2] = rtb_Multiply_np;
 
   // Update for Delay: '<S11>/Delay' incorporates:
   //   Inport: '<Root>/fl_wheel_pose'
@@ -345,19 +366,19 @@ void ros2webots_localization_model_cg::step()
   ros2webots_localization_mode_DW.Delay_DSTATE_g =
     ros2webots_localization_model_U.fl_wheel_pose;
 
-  // Update for Delay: '<S17>/Delay' incorporates:
+  // Update for Delay: '<S19>/Delay' incorporates:
   //   Inport: '<Root>/rl_wheel_pose'
 
   ros2webots_localization_mode_DW.Delay_DSTATE_j =
     ros2webots_localization_model_U.rl_wheel_pose;
 
-  // Update for Delay: '<S14>/Delay' incorporates:
+  // Update for Delay: '<S15>/Delay' incorporates:
   //   Inport: '<Root>/fr_wheel_pose'
 
   ros2webots_localization_mode_DW.Delay_DSTATE_o =
     ros2webots_localization_model_U.fr_wheel_pose;
 
-  // Update for Delay: '<S20>/Delay' incorporates:
+  // Update for Delay: '<S23>/Delay' incorporates:
   //   Inport: '<Root>/rr_wheel_pose'
 
   ros2webots_localization_mode_DW.Delay_DSTATE_i =
