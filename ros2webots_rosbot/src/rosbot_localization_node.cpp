@@ -49,9 +49,13 @@ class MinimalPublisher : public rclcpp::Node
       auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(current_time.time_since_epoch());
       OdomMessage.header.stamp.sec = static_cast<uint32_t>(timestamp.count());
       OdomMessage.header.stamp.nanosec = static_cast<uint32_t>((current_time.time_since_epoch() - timestamp).count());
-      OdomMessage.pose.pose.position.x = static_cast<double>(localization_output_data.odometry_vector[0]);
-      OdomMessage.pose.pose.position.y = static_cast<double>(localization_output_data.odometry_vector[1]);
-      OdomMessage.pose.pose.orientation.z = static_cast<double>(localization_output_data.odometry_vector[2]);
+      RCLCPP_INFO(this->get_logger(), "X localization: %f", localization_output_data.odometry_vector[0]);
+      RCLCPP_INFO(this->get_logger(), "Y localization: %f", localization_output_data.odometry_vector[1]);
+      RCLCPP_INFO(this->get_logger(), "yaw localization: %f", localization_output_data.odometry_vector[2]);
+
+      OdomMessage.pose.pose.position.x = localization_output_data.odometry_vector[0];
+      OdomMessage.pose.pose.position.y = localization_output_data.odometry_vector[1];
+      OdomMessage.pose.pose.orientation.z = localization_output_data.odometry_vector[2];
       publisherOdomData_->publish(OdomMessage);
     }
 
