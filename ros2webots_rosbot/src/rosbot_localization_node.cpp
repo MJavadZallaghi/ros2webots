@@ -49,6 +49,8 @@ class MinimalPublisher : public rclcpp::Node
       auto timestamp = std::chrono::duration_cast<std::chrono::seconds>(current_time.time_since_epoch());
       OdomMessage.header.stamp.sec = static_cast<uint32_t>(timestamp.count());
       OdomMessage.header.stamp.nanosec = static_cast<uint32_t>((current_time.time_since_epoch() - timestamp).count());
+      OdomMessage.header.frame_id = "odometry_frame";
+      OdomMessage.child_frame_id = "base_link";
       OdomMessage.pose.pose.position.x = localization_output_data.odometry_vector[0];
       OdomMessage.pose.pose.position.y = localization_output_data.odometry_vector[1];
       OdomMessage.pose.pose.orientation.z = localization_output_data.odometry_vector[2];
@@ -71,10 +73,13 @@ class MinimalPublisher : public rclcpp::Node
       localization_input_data.fr_wheel_pose = Wheels_encoder_data_received.position[1];
       localization_input_data.rl_wheel_pose = Wheels_encoder_data_received.position[2];
       localization_input_data.rr_wheel_pose = Wheels_encoder_data_received.position[3];
-      localization_input_data.fl_wheel_pose_update_dt = 0.1; // Implement dt calc later
-      localization_input_data.fr_wheel_pose_update_dt = 0.1;
-      localization_input_data.rl_wheel_pose_update_dt = 0.1;
-      localization_input_data.rr_wheel_pose_update_dt = 0.1;
+      double timeOldWheelData = getFullTime(Wheels_encoder_data_received_old.header.stamp.sec, Wheels_encoder_data_received_old.header.stamp.nanosec);
+      double timeNewWheelData = getFullTime(Wheels_encoder_data_received.header.stamp.sec, Wheels_encoder_data_received.header.stamp.nanosec);
+      double dt_wheel_data = timeNewWheelData - timeOldWheelData;
+      localization_input_data.fl_wheel_pose_update_dt = dt_wheel_data;
+      localization_input_data.fr_wheel_pose_update_dt = dt_wheel_data;
+      localization_input_data.rl_wheel_pose_update_dt = dt_wheel_data;
+      localization_input_data.rr_wheel_pose_update_dt = dt_wheel_data;
       localization_sdk_obj_.setExternalInputs(&localization_input_data);
       // Do localization
       localization_sdk_obj_.step();
@@ -93,6 +98,7 @@ class MinimalPublisher : public rclcpp::Node
       Wheels_encoder_data_received = *msg;
       wheel_data_activated = true;
       OdomDataPub_callback();
+      Wheels_encoder_data_received_old = Wheels_encoder_data_received;
     }
 
     bool areTimestampsSynced(uint32_t imuSec, uint32_t imuNsec, uint32_t jointStateSec, uint32_t jointStateNsec, double threshold = 0.2) {
@@ -112,6 +118,13 @@ class MinimalPublisher : public rclcpp::Node
           return false;  // Timestamps are not synced
       }
     }
+
+    double getFullTime(const uint32_t MsgHeaderSec, const uint32_t MsgHeaderNSec) {
+      double timeWithFullRes;
+      timeWithFullRes = MsgHeaderSec + MsgHeaderNSec* 1e-9;
+      return timeWithFullRes;
+    }
+
 
     // Odom pablisher timer
     rclcpp::TimerBase::SharedPtr timerOdomDataPub_;
@@ -136,6 +149,9 @@ class MinimalPublisher : public rclcpp::Node
 
     // Wheels encoder data struct (received)
     sensor_msgs::msg::JointState Wheels_encoder_data_received;
+
+    // Wheels encoder data struct (received)
+    sensor_msgs::msg::JointState Wheels_encoder_data_received_old;
 
     // Odom pub message
     nav_msgs::msg::Odometry OdomMessage;
