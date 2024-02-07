@@ -4,10 +4,11 @@
         <!-- Get sensor data from Webots in ROS -->
 
         <!-- Lidar Device -->
+        <!-- 20~22 Hz -> updateRate = 55 -->
         <device reference="laser" type="Lidar">
             <ros>
                 <enabled>true</enabled>
-                <updateRate>5</updateRate>
+                <updateRate>55</updateRate>
                 <topicName>/webots/rosbot/laser</topicName>
                 <alwaysOn>true</alwaysOn>
                 <frameName>LDS-01</frameName>
@@ -15,10 +16,11 @@
         </device>
 
         <!-- Compass Device -->
+        <!-- 20~22 Hz -> updateRate = 55 -->
         <device reference="imu compass" type="Compass">
             <ros>
                 <enabled>true</enabled>
-                <updateRate>5</updateRate>
+                <updateRate>55</updateRate>
                 <topicName>/webots/rosbot/compass</topicName>
                 <alwaysOn>true</alwaysOn>
                 <frameName>compass</frameName>
@@ -26,6 +28,7 @@
         </device>
 
         <!-- IMU device -->
+        <!-- 20~22 Hz -> updateRate = 55 -->
         <plugin type="webots_ros2_driver::Ros2IMU">
             <!-- If `False`, disable the device. By default the device will be enabled. -->
             <enabled>True</enabled>
@@ -33,7 +36,7 @@
             <!-- Set the topic name of the device. By default it will be `/robotName/referenceName`. -->
             <topicName>/webots/rosbot/imu</topicName>
             <!-- Set the update rate in Hz of the topic. By default the topic will be published at each simulation step. -->
-            <updateRate>5</updateRate>
+            <updateRate>55</updateRate>
             <!-- If `True`, the device topics will constantly publish, which can slow down the simulation. -->
             <!-- By default the topics are publishing only if there is at least one subscriber for the corresponding topic. -->
             <alwaysOn>True</alwaysOn>

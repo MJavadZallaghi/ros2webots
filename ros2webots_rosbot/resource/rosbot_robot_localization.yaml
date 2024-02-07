@@ -1,0 +1,29 @@
+### ekf config file ###
+ekf_filter_node:
+  ros__parameters:
+    frequency: 30.0
+    sensor_timeout: 0.1
+    two_d_mode: false
+    print_diagnostics: false
+    publish_acceleration: false
+    publish_tf: false
+    reset_on_time_jump: true
+
+    map_frame: map              # Defaults to "map" if unspecified
+    odom_frame: odom            # Defaults to "odom" if unspecified
+    base_link_frame: base_link  # Defaults to "base_link" if unspecified
+    world_frame: odom           # Defaults to the value of odom_frame if unspecified
+
+
+    # IMU configuration
+    imu0: /webots/rosbot/imu
+    imu0_config: [false, false, false,
+                  true, true, true,
+                  false, false, false,
+                  true, true, true,
+                  true, true, true]
+    imu0_queue_size: 5
+    imu0_nodelay: false
+    imu0_differential: false
+    imu0_relative: true
+    imu0_remove_gravitational_acceleration: true
