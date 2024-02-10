@@ -20,7 +20,7 @@ Currently the repo hosts two ROS2 packages:
 
 - Controlling the rosbot by keyboard
   
-![alt demo of robot controlled by keyboard](https://github.com/MJavadZallaghi/ros2webots/blob/main/media/ros2webots_rosbot_demo_keyboard_control.gif)
+![alt demo of robot controlled by keyboard](https://github.com/MJavadZallaghi/media_ros2webots/blob/main/media/ros2webots_rosbot_demo_keyboard_control.gif)
 
 
 ## Installation
