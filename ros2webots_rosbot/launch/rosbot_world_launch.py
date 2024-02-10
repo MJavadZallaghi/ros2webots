@@ -7,6 +7,7 @@ from launch.substitutions import LaunchConfiguration
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 import launch
 from webots_ros2_driver.webots_controller import WebotsController
+import datetime
 
 def generate_launch_description():
 
@@ -34,6 +35,37 @@ def generate_launch_description():
         executable='rosbot_tf_publisher',
         name='rosbot_tf_urdf_pub_node',
         )
+    # Run imu-based localization node for the rosbot
+    # rosbot_localization_configue_file = PathJoinSubstitution([package_dir, 'resource', 'rosbot_robot_localization.yaml'])
+    # rosbot_localization_node = Node(
+    #         package='robot_localization',
+    #         executable='ekf_node',
+    #         name='ekf_filter_node',
+    #         output='screen',
+    #         arguments=[rosbot_localization_configue_file],
+    #     )
+
+    # Localization Node
+    rosbo_localization_model_node = Node(
+        package='ros2webots_rosbot',
+        namespace='rosbot_localization_node_1',
+        executable='rosbot_localization_node',
+        name='rosbot_localization_node_1',
+        )
+
+    # rosbot data logging
+    # Construct the bag file name with the timestamp
+    current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    bag_file_name = '/home/mjavadzallaghi/ros2_ws/ros2webots/baglog/' + f'rosbot_data_{current_time}'
+    rosbot_logger_node = launch.actions.ExecuteProcess(
+            cmd=['ros2', 'bag', 'record', '/webots/rosbot/imu', '/webots/rosbot/odometry', '/webots/rosbot/odom/wheels_encoder_data', '/webots/rosbot/command_vel', '-o', bag_file_name],   
+            output='screen',
+        )
+    
+    foxglove_beidge = launch.actions.ExecuteProcess(
+            cmd=['ros2', 'launch', 'foxglove_bridge', 'foxglove_bridge_launch.xml'],   
+            output='screen',
+        ) 
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -45,6 +77,10 @@ def generate_launch_description():
         webots._supervisor,
         rosBot_driver,
         ros_tf_urdf_pub_node,
+        # rosbot_localization_node,
+        rosbo_localization_model_node,
+        rosbot_logger_node,
+        foxglove_beidge,
 
 
         # This action will kill all nodes once the Webots simulation has exited

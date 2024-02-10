@@ -31,7 +31,7 @@ private:
     void publishRosBotDescription() {
         auto message = std_msgs::msg::String();
         message.data = urdf_path_;
-        RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
+        // RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
         publisher_->publish(message);
         }
 
@@ -50,7 +50,7 @@ private:
     }
 
     // Access model information (e.g., joints, links, etc.)
-    RCLCPP_INFO(this->get_logger(), "Robot name: %s", model.getName().c_str());
+    // RCLCPP_INFO(this->get_logger(), "Robot name: %s", model.getName().c_str());
     }
   void publish_transforms()
   {
@@ -76,7 +76,7 @@ private:
 
       // Broadcast the transform
       tf_broadcaster_->sendTransform(transform_stamped);
-      RCLCPP_INFO(this->get_logger(), "TF of parent link %s to child link %s has been published.", parent_link_name.c_str(), child_link_name.c_str());
+      // RCLCPP_INFO(this->get_logger(), "TF of parent link %s to child link %s has been published.", parent_link_name.c_str(), child_link_name.c_str());
     }
   }
 };
