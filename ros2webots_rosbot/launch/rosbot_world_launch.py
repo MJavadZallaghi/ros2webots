@@ -61,6 +61,11 @@ def generate_launch_description():
             cmd=['ros2', 'bag', 'record', '/webots/rosbot/imu', '/webots/rosbot/odometry', '/webots/rosbot/odom/wheels_encoder_data', '/webots/rosbot/command_vel', '-o', bag_file_name],   
             output='screen',
         )
+    
+    foxglove_beidge = launch.actions.ExecuteProcess(
+            cmd=['ros2', 'launch', 'foxglove_bridge', 'foxglove_bridge_launch.xml'],   
+            output='screen',
+        ) 
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -75,6 +80,7 @@ def generate_launch_description():
         # rosbot_localization_node,
         rosbo_localization_model_node,
         rosbot_logger_node,
+        foxglove_beidge,
 
 
         # This action will kill all nodes once the Webots simulation has exited

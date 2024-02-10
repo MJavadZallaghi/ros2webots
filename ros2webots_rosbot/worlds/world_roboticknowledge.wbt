@@ -8,14 +8,15 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Parquetry.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedAluminium.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/husarion/rosbot/protos/Rosbot.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/traffic/protos/TrafficCone.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.012397245288645725 -0.99027185851049 0.13859276514823138 5.8829784366957165
-  position -2.967598284327324 0.23953645534961798 1.6515483635485562
+  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  position 0.11896556438380629 0.053933915465289355 7.13760486813279
   follow "rosbot_robot"
-  followType "Pan and Tilt Shot"
+  followType "None"
 }
 TexturedBackground {
 }
@@ -35,7 +36,23 @@ RectangleArena {
     IBLStrength 22
   }
 }
+TrafficCone {
+  translation -0.74 -0.46 0
+}
+TrafficCone {
+  translation -0.74 1.44 0
+  name "traffic cone(3)"
+}
+TrafficCone {
+  translation 1.9 -0.46 0
+  name "traffic cone(1)"
+}
+TrafficCone {
+  translation 1.9 1.44 0
+  name "traffic cone(2)"
+}
 Rosbot {
+  translation -0.86 0 0
   name "rosbot_robot"
   controller "<extern>"
 }
