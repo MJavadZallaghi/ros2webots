@@ -14,6 +14,8 @@ Currently the repo hosts two ROS2 packages:
 
 
 ## Demo
+- ROSbot localization node
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/x2v0zY_rH44/0.jpg)](https://www.youtube.com/watch?v=x2v0zY_rH44)
 - Controlling the rosbot by keyboard
 ![alt demo of robot controlled by keyboard](https://github.com/MJavadZallaghi/ros2webots/blob/main/media/ros2webots_rosbot_demo_keyboard_control.gif)
 
