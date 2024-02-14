@@ -22,7 +22,7 @@ find_package(ament_index_cpp  REQUIRED)
 # find_package(<dependency> REQUIRED)
 
 # Include Cpp "include" directory
-include_directories(include simulink_models/ros2webots_localization_model_cg_ert_rtw)
+include_directories(include cpp_models simulink_models/ros2webots_localization_model_cg_ert_rtw)
 
 install(DIRECTORY
   launch
@@ -50,12 +50,16 @@ ament_target_dependencies(rosbot_tf_publisher rclcpp tf2_ros urdf std_msgs geome
 add_executable(rosbot_localization_node src/rosbot_localization_node.cpp simulink_models/ros2webots_localization_model_cg_ert_rtw/ros2webots_localization_model_cg.cpp simulink_models/ros2webots_localization_model_cg_ert_rtw/rt_nonfinite.cpp simulink_models/ros2webots_localization_model_cg_ert_rtw/rtGetInf.cpp simulink_models/ros2webots_localization_model_cg_ert_rtw/rtGetNaN.cpp)
 ament_target_dependencies(rosbot_localization_node rclcpp std_msgs geometry_msgs nav_msgs sensor_msgs)
 
+add_executable(rosbot_env_mapper_node src/rosbot_env_mapper_node.cpp cpp_models/laser_env_mapper.cpp)
+ament_target_dependencies(rosbot_env_mapper_node rclcpp nav_msgs sensor_msgs)
+
 # Install Cpp executables
 install(TARGETS
   rosbot_cpp_node_test
   rosbot_get_keyboard_command
   rosbot_tf_publisher
   rosbot_localization_node
+  rosbot_env_mapper_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
