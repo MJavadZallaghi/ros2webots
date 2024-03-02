@@ -50,12 +50,16 @@ ament_target_dependencies(rosbot_tf_publisher rclcpp tf2_ros urdf std_msgs geome
 add_executable(rosbot_localization_node src/rosbot_localization_node.cpp simulink_models/ros2webots_localization_model_cg_ert_rtw/ros2webots_localization_model_cg.cpp simulink_models/ros2webots_localization_model_cg_ert_rtw/rt_nonfinite.cpp simulink_models/ros2webots_localization_model_cg_ert_rtw/rtGetInf.cpp simulink_models/ros2webots_localization_model_cg_ert_rtw/rtGetNaN.cpp)
 ament_target_dependencies(rosbot_localization_node rclcpp std_msgs geometry_msgs nav_msgs sensor_msgs)
 
+add_executable(rosbot_way_point_tracker_node src/rosbot_way_point_tracker_node.cpp)
+ament_target_dependencies(rosbot_way_point_tracker_node rclcpp std_msgs geometry_msgs nav_msgs)
+
 # Install Cpp executables
 install(TARGETS
   rosbot_cpp_node_test
   rosbot_get_keyboard_command
   rosbot_tf_publisher
   rosbot_localization_node
+  rosbot_way_point_tracker_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
