@@ -52,6 +52,14 @@ def generate_launch_description():
         executable='rosbot_localization_node',
         name='rosbot_localization_node_1',
         )
+    
+    rosbot_way_point_tracker_node = Node(
+        package='ros2webots_rosbot',
+        namespace='rosbot_way_point_tracker_node_1',
+        executable='rosbot_way_point_tracker_node',
+        name='rosbot_way_point_tracker_node_1',
+        )
+    
 
     # rosbot data logging
     # Construct the bag file name with the timestamp
@@ -79,6 +87,7 @@ def generate_launch_description():
         ros_tf_urdf_pub_node,
         # rosbot_localization_node,
         rosbo_localization_model_node,
+        rosbot_way_point_tracker_node,
         rosbot_logger_node,
         foxglove_beidge,
 
