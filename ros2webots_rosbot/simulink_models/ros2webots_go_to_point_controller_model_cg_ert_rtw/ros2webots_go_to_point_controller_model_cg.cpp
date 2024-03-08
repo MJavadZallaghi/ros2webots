@@ -30,7 +30,7 @@ const uint8_T ros2webots_go_IN_controller_off{ 1U };
 
 const uint8_T ros2webots_go__IN_controller_on{ 2U };
 
-const real_T ros2webots_param_error_distance{ 0.2 };
+const real_T ros2webots_param_error_distance{ 0.05 };
 
 // Exported data definition
 
@@ -39,13 +39,13 @@ const real_T ros2webots_param_error_distance{ 0.2 };
 const real_T laterl_PID_kd{ 0.0 };    // Referenced by: '<S31>/Derivative Gain'
 
 // Lateral PID controller gain: Kd
-const real_T laterl_PID_ki{ 0.2 };     // Referenced by: '<S34>/Integral Gain'
+const real_T laterl_PID_ki{ 0.3 };     // Referenced by: '<S34>/Integral Gain'
 
 // Lateral PID controller gain: Ki
-const real_T laterl_PID_kp{ 1.0 };  // Referenced by: '<S42>/Proportional Gain'
+const real_T laterl_PID_kp{ 1. };  // Referenced by: '<S42>/Proportional Gain'
 
 // Lateral PID controller gain: Kp
-const real_T longitudinal_speed_gain{ 0.2 };// Referenced by: '<S1>/Gain'
+const real_T longitudinal_speed_gain{ 0.1 };// Referenced by: '<S1>/Gain'
 
 // The gain thay manipulate main state machine velocity command
 real_T rt_atan2d_snf(real_T u0, real_T u1)
@@ -196,18 +196,18 @@ void ros2webots_go_to_point_controller_model_cg::step()
 
   // Saturate: '<S1>/Saturation'
   if (ros2webots_go_to_point_contro_Y.command_steering_angle >
-      0.78539816339744828) {
+      (2*0.78539816339744828)) {
     // Sum: '<S46>/Sum' incorporates:
     //   Outport: '<Root>/command_steering_angle'
 
-    ros2webots_go_to_point_contro_Y.command_steering_angle = 0.78539816339744828;
+    ros2webots_go_to_point_contro_Y.command_steering_angle = 2*0.78539816339744828;
   } else if (ros2webots_go_to_point_contro_Y.command_steering_angle <
-             -0.78539816339744828) {
+             (2*-0.78539816339744828)) {
     // Sum: '<S46>/Sum' incorporates:
     //   Outport: '<Root>/command_steering_angle'
 
     ros2webots_go_to_point_contro_Y.command_steering_angle =
-      -0.78539816339744828;
+      2*-0.78539816339744828;
   }
 
   // End of Saturate: '<S1>/Saturation'
