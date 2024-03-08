@@ -9,12 +9,13 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedAluminium.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/husarion/rosbot/protos/Rosbot.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/traffic/protos/TrafficCone.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/balls/protos/SoccerBall.proto"
 
 WorldInfo {
 }
 Viewpoint {
   orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
-  position 0.11896556438380629 0.053933915465289355 7.13760486813279
+  position -0.22097335940147445 -1.2722682925136632 5.428593795119409
   follow "rosbot_robot"
   followType "None"
 }
@@ -36,6 +37,21 @@ RectangleArena {
     IBLStrength 22
   }
 }
+SoccerBall {
+  translation -1.5 -1.75 0.11
+}
+SoccerBall {
+  translation -0.7 -1.75 0.11
+  name "soccer ball(1)"
+}
+SoccerBall {
+  translation 0.1 -1.75 0.11
+  name "soccer ball(2)"
+}
+SoccerBall {
+  translation 0.9 -1.75 0.11
+  name "soccer ball(3)"
+}
 TrafficCone {
   translation -0.74 -0.46 0
 }
@@ -52,7 +68,7 @@ TrafficCone {
   name "traffic cone(2)"
 }
 Rosbot {
-  translation -0.86 0 0
+  translation -2.24 -1.76 0
   name "rosbot_robot"
   controller "<extern>"
 }

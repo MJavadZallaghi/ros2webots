@@ -1,6 +1,7 @@
 #include <iostream>
 #include <termios.h>
 #include <unistd.h>
+#include <vector>
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "nav_msgs/msg/odometry.hpp"
@@ -33,6 +34,10 @@ private:
   // Desiered position data
   // TO DO --> Later we have to received them from a mission (path) planner
   double x_des = 2.; double y_des = 1.; double yaw_des = 0.;
+  std::vector<double> x_des_vec = {0.0,   0.6,  1.4,    2.2,  3.2,  2.0,   0.2, 0.0};
+  std::vector<double> y_des_vec = {0.0, -0.45, 0.45,  -0.45, 0.45,-0.45, -0.45, 0.0};
+  int des_point_index = 0;
+
 
   // Way point tracker SDK class object
   ros2webots_go_to_point_controller_model_cg wayPointTrackerControllerObject;
@@ -48,8 +53,9 @@ private:
       controller_input.x_act    = ReceivedActualLocalizationData_.pose.pose.position.x;
       controller_input.y_act    = ReceivedActualLocalizationData_.pose.pose.position.y;
       controller_input.yaw_act  = ReceivedActualLocalizationData_.pose.pose.orientation.z;
-      controller_input.x_des    = x_des;    // TO DO --> Path planner node
-      controller_input.y_des    = y_des;    // TO DO --> Path planner node
+      if(des_point_index>x_des_vec.size()){des_point_index = 0;}
+      controller_input.x_des    = x_des_vec[des_point_index];    // TO DO --> Path planner node
+      controller_input.y_des    = y_des_vec[des_point_index];    // TO DO --> Path planner node
       controller_input.yaw_des  = yaw_des;  // TO DO --> Path planner node
 
       wayPointTrackerControllerObject.setExternalInputs(&controller_input);
@@ -59,6 +65,9 @@ private:
 
       // Get controller calculations
       controller_output = wayPointTrackerControllerObject.getExternalOutputs();
+
+      // Control reaching to the next way point
+      if(controller_output.controller_state == 0) {des_point_index++;}
 
       // Assign twist command
       twistCommand.linear.x   = controller_output.command_velocity;
