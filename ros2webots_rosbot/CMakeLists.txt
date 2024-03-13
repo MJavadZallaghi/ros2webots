@@ -22,6 +22,7 @@ find_package(ament_index_cpp  REQUIRED)
 # find_package(<dependency> REQUIRED)
 
 # Include Cpp "include" directory
+
 include_directories(include simulink_models/ros2webots_localization_model_cg_ert_rtw 
                             simulink_models/ros2webots_go_to_point_controller_model_cg_ert_rtw)
 
@@ -46,7 +47,7 @@ add_executable(rosbot_get_keyboard_command src/rosbot_get_keyboard_command.cpp)
 ament_target_dependencies(rosbot_get_keyboard_command rclcpp geometry_msgs)
 
 add_executable(rosbot_tf_publisher src/rosbot_tf_publisher.cpp)
-ament_target_dependencies(rosbot_tf_publisher rclcpp tf2_ros urdf std_msgs geometry_msgs tf2_ros)
+ament_target_dependencies(rosbot_tf_publisher rclcpp tf2_ros urdf std_msgs geometry_msgs tf2_ros nav_msgs)
 
 add_executable(rosbot_localization_node 
               src/rosbot_localization_node.cpp 
@@ -55,6 +56,7 @@ add_executable(rosbot_localization_node
               simulink_models/ros2webots_localization_model_cg_ert_rtw/rtGetInf.cpp 
               simulink_models/ros2webots_localization_model_cg_ert_rtw/rtGetNaN.cpp)
 ament_target_dependencies(rosbot_localization_node rclcpp std_msgs geometry_msgs nav_msgs sensor_msgs)
+
 
 add_executable(rosbot_way_point_tracker_node 
               src/rosbot_way_point_tracker_node.cpp
