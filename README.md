@@ -59,16 +59,11 @@ You must see this package: ```ros2webots_rosbot```
 Docker image of the ros2webots package is under construction!
     
 ## Run the simulations
-- sim 1: rosbot controlled by the keyboard arrows
-1. Run the rosbot wprld in terminal 1:
+- sim 1: rosbot controlled by a waypoint tracker
+1. Run the rosbot wprld in terminal and see how the Football ball are being passed by the ROSBot:
    ```
    ros2 launch ros2webots_rosbot rosbot_world_launch.py
    ```
-2. Run the keboard commanding node in terminal 2:
-   ```
-   ros2 run ros2webots_rosbot rosbot_get_keyboard_command
-   ```
-3. Command the rosbot by your arrows from second terminal.
 
 
 ## Roadmap
@@ -76,7 +71,7 @@ Docker image of the ros2webots package is under construction!
 - [x] Implment IMU + Wheel based locallization fir the rosbot and visualize its path.
 - [ ] Implement KF for the IMU acceleration fussion with odometry data and increase the localization accuracy.
 - [ ] Develop a mapping node for the rosbot for environment mapping.
-- [ ] Implement a go-to-point controller for the ROSbot
+- [x] Implement a go-to-point controller for the ROSbot
 
 
 ## Support and Feedback
