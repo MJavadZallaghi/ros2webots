@@ -15,10 +15,8 @@ Currently the repo hosts two ROS2 packages:
 
 ## Demo
 - ROSBot with a way point tracker
-<video src="https://github.com/MJavadZallaghi/media_ros2webots/blob/main/media/Zallaghi_ros2webots_wayPointTracker_edit_0.mp4"></video>
 
 ![alt ROSBot with a way point tracker](https://github.com/MJavadZallaghi/media_ros2webots/blob/main/media/Zallaghi_ros2webots_wayPointTracker_edit_0_edit_0.gif)
-
 
 - ROSbot localization node
   
