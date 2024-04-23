@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<robot name="ned_robot">
+    <webots>
+        <!-- Connect Robot Driver Node from ROS to Webots -->
+        <plugin type = "ros2webots_manipulator.ned_robot_driver.NedWebotsDriver" />
+    </webots>
+</robot>
