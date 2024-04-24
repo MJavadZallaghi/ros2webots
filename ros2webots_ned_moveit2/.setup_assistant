@@ -1,0 +1,23 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: ros2webots_manipulator
+    relative_path: resource/Ned.urdf
+  srdf:
+    relative_path: config/Ned.srdf
+  package_settings:
+    author_name: Mohammad Javad Zallaghi
+    author_email: MohammadJavadZallaghi@gmail.com
+    generated_timestamp: 1713993208
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
