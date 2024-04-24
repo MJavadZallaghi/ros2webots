@@ -17,6 +17,7 @@ find_package(sensor_msgs REQUIRED)
 find_package(tf2_ros  REQUIRED)
 find_package(urdf  REQUIRED)
 find_package(ament_index_cpp  REQUIRED)
+find_package(moveit_ros_planning_interface REQUIRED)
 
 include_directories(include)
 
@@ -32,6 +33,16 @@ install(DIRECTORY
 install(DIRECTORY
   resource
   DESTINATION share/${PROJECT_NAME}/
+)
+
+# Create Cpp executable
+add_executable(ned_node_moveit2 src/ned_node_moveit2.cpp)
+ament_target_dependencies(ned_node_moveit2 rclcpp std_msgs moveit_ros_planning_interface)
+
+# Install Cpp executables
+install(TARGETS
+  ned_node_moveit2
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 # Install Python modules

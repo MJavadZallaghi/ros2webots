@@ -1,0 +1,6 @@
+After checking basic Moveit2 tutorials, I noticed that I have to first configure
+the Ned robot for it (obvious, as moveit2 needs its geometry for planning).
+
+* MoveIt Setup Assistant: 
+https://moveit.picknik.ai/main/doc/examples/setup_assistant/setup_assistant_tutorial.html
+
